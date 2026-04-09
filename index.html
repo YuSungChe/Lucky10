@@ -552,7 +552,8 @@ async function manualRefresh() {
 }
 
 // ── Auto-refresh every 30 s ───────────────────────────────────────────────────
-setInterval(() => loadData(true), REFRESH_MS);
+setInterval(() => loadData(true), 15_000);
+
 
 // ── Start ─────────────────────────────────────────────────────────────────────
 loadData();
