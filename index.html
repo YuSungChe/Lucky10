@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="zh-TW">
 <head>
 <meta charset="UTF-8">
@@ -6,169 +7,115 @@
 <title>澳洲幸運10 · 冠軍預測</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
   :root {
-    --bg:        #0f1117;
-    --bg2:       #1a1d27;
-    --bg3:       #22263a;
-    --border:    #2e3350;
-    --text:      #e8eaf0;
-    --text2:     #8b91a8;
-    --blue:      #4d8aff;
-    --blue-dim:  #1e3a6e;
-    --green:     #3ecf6f;
-    --green-dim: #0f3320;
-    --red:       #ff4d4d;
-    --red-dim:   #3a0f0f;
-    --yellow:    #ffd166;
+    --bg:#0f1117; --bg2:#1a1d27; --bg3:#22263a; --border:#2e3350;
+    --text:#e8eaf0; --text2:#8b91a8;
+    --blue:#4d8aff; --blue-dim:#1e3a6e;
+    --green:#3ecf6f; --green-dim:#0f3320;
+    --red:#ff4d4d;  --red-dim:#3a0f0f;
+    --yellow:#ffd166; --purple:#b06aff; --cyan:#00d4ff;
   }
+  body { font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",sans-serif; background:var(--bg); min-height:100vh; display:flex; justify-content:center; color:var(--text); }
+  #app { width:100%; max-width:430px; min-height:100vh; }
 
-  body {
-    font-family: "PingFang SC","Noto Sans SC","Helvetica Neue",sans-serif;
-    background: var(--bg);
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    color: var(--text);
-  }
+/* Header */
+.header { background:linear-gradient(160deg,#1a2540 0%,#0f1620 100%); padding:20px 18px 22px; border-bottom:1px solid var(–border); }
+.header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
+.header-label { font-size:11px; color:var(–text2); letter-spacing:1px; margin-bottom:3px; }
+.header-draw  { font-size:20px; font-weight:800; }
+.header-right { text-align:right; }
+.header-cd-label { font-size:10px; color:var(–text2); margin-bottom:2px; }
+.header-cd { font-size:32px; font-weight:900; letter-spacing:3px; font-variant-numeric:tabular-nums; color:var(–yellow); }
+.header-cd.urgent { color:var(–red); animation:blink .6s ease-in-out infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+.balls-row { display:flex; gap:6px; flex-wrap:wrap; }
+.ball-sm { width:30px; height:30px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:800; color:#fff; box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 2px 3px rgba(255,255,255,.2); }
 
-  #app { width: 100%; max-width: 430px; min-height: 100vh; }
+/* Status */
+.status-bar { padding:8px 16px; display:flex; align-items:center; justify-content:space-between; font-size:12px; font-weight:600; border-bottom:1px solid var(–border); }
+.status-bar.ok   { background:#0d2218; color:var(–green); }
+.status-bar.warn { background:#1f1a0a; color:var(–yellow); }
+.refresh-btn { font-size:11px; padding:3px 9px; border-radius:10px; border:1.5px solid currentColor; background:transparent; color:inherit; cursor:pointer; font-weight:700; }
+.refresh-btn:disabled { opacity:.4; cursor:not-allowed; }
 
-  /* ── Header ── */
-  .header {
-    background: linear-gradient(160deg, #1a2540 0%, #0f1620 100%);
-    padding: 20px 18px 22px;
-    border-bottom: 1px solid var(--border);
-  }
-  .header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
-  .header-label { font-size:11px; color:var(--text2); letter-spacing:1px; margin-bottom:3px; }
-  .header-draw  { font-size:20px; font-weight:800; color:var(--text); }
-  .header-right { text-align:right; }
-  .header-cd-label { font-size:10px; color:var(--text2); margin-bottom:2px; }
-  .header-cd {
-    font-size:32px; font-weight:900; letter-spacing:3px;
-    font-variant-numeric:tabular-nums; color:var(--yellow);
-  }
-  .header-cd.urgent { color:var(--red); animation: blink .6s ease-in-out infinite; }
-  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
+/* Tabs */
+.tabs { display:flex; background:var(–bg2); border-bottom:1px solid var(–border); }
+.tab { flex:1; padding:13px 0; text-align:center; font-size:14px; font-weight:400; color:var(–text2); border-bottom:2.5px solid transparent; cursor:pointer; transition:all .15s; }
+.tab.active { font-weight:700; color:var(–blue); border-bottom-color:var(–blue); }
 
-  .balls-row { display:flex; gap:6px; flex-wrap:wrap; }
-  .ball-sm {
-    width:30px; height:30px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:11px; font-weight:800; color:#fff;
-    box-shadow: 0 2px 8px rgba(0,0,0,.5), inset 0 2px 3px rgba(255,255,255,.2);
-  }
+/* Cards */
+.card { background:var(–bg2); border-radius:16px; padding:18px 16px; margin:12px; border:1px solid var(–border); box-shadow:0 4px 20px rgba(0,0,0,.3); }
+.card-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+.card-title { font-size:12px; color:var(–text2); margin-bottom:3px; }
+.card-draw  { font-size:19px; font-weight:800; }
+.acc-badge { text-align:center; background:var(–blue-dim); border-radius:12px; padding:8px 14px; border:1px solid #2a4a8a; }
+.acc-val   { font-size:24px; font-weight:900; color:var(–blue); }
+.acc-label { font-size:10px; color:var(–text2); }
 
-  /* ── Status bar ── */
-  .status-bar {
-    padding:8px 16px; display:flex; align-items:center; justify-content:space-between;
-    font-size:12px; font-weight:600; border-bottom:1px solid var(--border);
-  }
-  .status-bar.ok   { background:#0d2218; color:var(--green); }
-  .status-bar.warn { background:#1f1a0a; color:var(--yellow); }
-  .status-bar.err  { background:#1f0a0a; color:var(--red); }
-  .refresh-btn {
-    font-size:11px; padding:3px 9px; border-radius:10px;
-    border:1.5px solid currentColor; background:transparent;
-    color:inherit; cursor:pointer; font-weight:700;
-  }
-  .refresh-btn:disabled { opacity:.4; cursor:not-allowed; }
+.section-label { font-size:12px; color:var(–text2); font-weight:600; margin-bottom:10px; }
+.section-label span { color:#444; font-weight:400; }
+.big-balls { display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px; }
+.ball-lg { width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:800; color:#fff; box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.25); }
+.small-balls { display:flex; gap:9px; }
+.ball-md { display:flex; flex-direction:column; align-items:center; gap:3px; }
+.ball-md-circle { width:36px; height:36px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+.ball-md-sub { font-size:9px; color:var(–text2); }
+.divider { height:1px; background:var(–border); margin:14px 0; }
+.tip-box { margin-top:14px; padding:10px 12px; border-radius:10px; background:var(–bg3); border:1px solid var(–border); font-size:11px; color:var(–text2); line-height:1.7; }
 
-  /* ── Tabs ── */
-  .tabs { display:flex; background:var(--bg2); border-bottom:1px solid var(--border); }
-  .tab {
-    flex:1; padding:13px 0; text-align:center;
-    font-size:14px; font-weight:400; color:var(--text2);
-    border-bottom:2.5px solid transparent; cursor:pointer; transition:all .15s;
-  }
-  .tab.active { font-weight:700; color:var(--blue); border-bottom-color:var(--blue); }
+/* Model weights */
+.weights-wrap { margin-top:14px; display:flex; flex-direction:column; gap:7px; }
+.wt-row { display:flex; align-items:center; gap:8px; }
+.wt-label { font-size:10px; color:var(–text2); width:62px; flex-shrink:0; }
+.wt-track { flex:1; height:6px; background:var(–bg3); border-radius:3px; overflow:hidden; }
+.wt-fill  { height:100%; border-radius:3px; transition:width .5s ease; }
+.wt-pct   { font-size:10px; font-weight:700; width:30px; text-align:right; flex-shrink:0; }
 
-  /* ── Cards ── */
-  .card {
-    background:var(--bg2); border-radius:16px;
-    padding:18px 16px; margin:12px;
-    border:1px solid var(--border);
-    box-shadow:0 4px 20px rgba(0,0,0,.3);
-  }
-  .card-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
-  .card-title { font-size:12px; color:var(--text2); margin-bottom:3px; }
-  .card-draw  { font-size:19px; font-weight:800; color:var(--text); }
+/* Repeat indicator */
+.repeat-box { margin-top:12px; padding:10px 12px; border-radius:10px; background:var(–bg3); border:1px solid var(–border); display:flex; align-items:center; gap:10px; }
+.repeat-icon { font-size:20px; flex-shrink:0; }
+.repeat-label { font-size:11px; color:var(–text2); flex:1; }
+.repeat-val { font-size:18px; font-weight:900; flex-shrink:0; }
 
-  .acc-badge { text-align:center; background:var(--blue-dim); border-radius:12px; padding:8px 14px; border:1px solid #2a4a8a; }
-  .acc-val   { font-size:24px; font-weight:900; color:var(--blue); }
-  .acc-label { font-size:10px; color:var(--text2); }
+/* Chart */
+.chart-wrap { display:flex; gap:5px; align-items:flex-end; height:84px; }
+.chart-col  { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
+.chart-num  { font-size:8px; font-weight:700; }
+.chart-bar  { width:100%; border-radius:3px 3px 0 0; transition:height .35s ease; }
+.chart-ball { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; }
+.chart-legend { display:flex; gap:14px; margin-top:10px; justify-content:center; }
+.legend-dot { display:flex; align-items:center; gap:4px; font-size:10px; color:var(–text2); }
+.dot { width:10px; height:10px; border-radius:50%; }
 
-  .section-label { font-size:12px; color:var(--text2); font-weight:600; margin-bottom:10px; }
-  .section-label span { color:#555; font-weight:400; }
+/* Stats */
+.stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:0 12px 12px; }
+.stat-card { background:var(–bg2); border-radius:12px; padding:14px 6px; text-align:center; border:1px solid var(–border); }
+.stat-val  { font-size:22px; font-weight:800; }
+.stat-label{ font-size:10px; color:var(–text2); margin-top:2px; }
 
-  .big-balls { display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px; }
-  .ball-lg {
-    width:46px; height:46px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:15px; font-weight:800; color:#fff;
-    box-shadow:0 4px 14px rgba(0,0,0,.4), inset 0 2px 4px rgba(255,255,255,.25);
-  }
-  .small-balls { display:flex; gap:9px; }
-  .ball-md { display:flex; flex-direction:column; align-items:center; gap:3px; }
-  .ball-md-circle {
-    width:36px; height:36px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:13px; font-weight:800;
-  }
-  .ball-md-sub { font-size:9px; color:var(--text2); }
+/* History */
+.table-wrap { background:var(–bg2); border-radius:14px; overflow:hidden; border:1px solid var(–border); margin:12px; }
+.table-head { display:grid; grid-template-columns:54px 1fr 44px; padding:11px 14px; background:var(–bg3); border-bottom:1px solid var(–border); }
+.table-head span { font-size:11px; font-weight:700; color:var(–text2); }
+.table-row { display:grid; grid-template-columns:54px 1fr 44px; padding:11px 14px; border-bottom:1px solid var(–border); align-items:center; }
+.table-row:last-child { border-bottom:none; }
+.table-row:nth-child(odd)  { background:var(–bg2); }
+.table-row:nth-child(even) { background:var(–bg3); }
+.row-draw { font-size:13px; font-weight:700; }
+.row-balls { display:flex; gap:3px; flex-wrap:wrap; align-items:center; }
+.hist-ball { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; }
+.hist-miss-note { font-size:10px; color:var(–red); margin-left:2px; white-space:nowrap; }
+.badge-hit  { background:var(–green-dim); color:var(–green); font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; border:1px solid #1a5c35; }
+.badge-miss { background:var(–red-dim);   color:var(–red);   font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; border:1px solid #5c1a1a; }
+.table-foot { padding:11px 16px; background:var(–bg3); border-top:1px solid var(–border); text-align:center; font-size:12px; color:var(–text2); }
 
-  .divider { height:1px; background:var(--border); margin:14px 0; }
-
-  .tip-box {
-    margin-top:14px; padding:10px 12px; border-radius:10px;
-    background:var(--bg3); border:1px solid var(--border);
-    font-size:11px; color:var(--text2); line-height:1.7;
-  }
-
-  /* ── Chart ── */
-  .chart-wrap { display:flex; gap:5px; align-items:flex-end; height:84px; }
-  .chart-col  { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
-  .chart-num  { font-size:8px; font-weight:700; }
-  .chart-bar  { width:100%; border-radius:3px 3px 0 0; transition:height .35s ease; }
-  .chart-ball { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; }
-  .chart-legend { display:flex; gap:14px; margin-top:10px; justify-content:center; }
-  .legend-dot { display:flex; align-items:center; gap:4px; font-size:10px; color:var(--text2); }
-  .dot { width:10px; height:10px; border-radius:50%; }
-
-  /* ── Stats row ── */
-  .stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:0 12px 12px; }
-  .stat-card { background:var(--bg2); border-radius:12px; padding:14px 6px; text-align:center; border:1px solid var(--border); }
-  .stat-val   { font-size:22px; font-weight:800; }
-  .stat-label { font-size:10px; color:var(--text2); margin-top:2px; }
-
-  /* ── History ── */
-  .table-wrap { background:var(--bg2); border-radius:14px; overflow:hidden; border:1px solid var(--border); margin:12px; }
-  .table-head { display:grid; grid-template-columns:54px 1fr 44px; padding:11px 14px; background:var(--bg3); border-bottom:1px solid var(--border); }
-  .table-head span { font-size:11px; font-weight:700; color:var(--text2); }
-  .table-row {
-    display:grid; grid-template-columns:54px 1fr 44px;
-    padding:11px 14px; border-bottom:1px solid var(--border); align-items:center;
-  }
-  .table-row:last-child { border-bottom:none; }
-  .table-row:nth-child(odd)  { background:var(--bg2); }
-  .table-row:nth-child(even) { background:var(--bg3); }
-  .row-draw  { font-size:13px; font-weight:700; color:var(--text); }
-  .row-time  { font-size:9px; color:var(--text2); }
-  .row-balls { display:flex; gap:3px; flex-wrap:wrap; align-items:center; }
-  .hist-ball { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; }
-  .hist-miss-note { font-size:10px; color:var(--red); margin-left:2px; white-space:nowrap; }
-  .badge-hit  { background:var(--green-dim); color:var(--green); font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; text-align:center; border:1px solid #1a5c35; }
-  .badge-miss { background:var(--red-dim);   color:var(--red);   font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; text-align:center; border:1px solid #5c1a1a; }
-  .table-foot { padding:11px 16px; background:var(--bg3); border-top:1px solid var(--border); text-align:center; font-size:12px; color:var(--text2); }
-
-  /* ── Loading ── */
-  .loading { padding:48px 0; text-align:center; color:var(--text2); font-size:14px; }
-  .spinner { width:28px; height:28px; border:3px solid var(--border); border-top-color:var(--blue); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 12px; }
-  @keyframes spin { to { transform:rotate(360deg); } }
-
-  .spacer { height:32px; }
+/* Loading */
+.loading { padding:48px 0; text-align:center; color:var(–text2); font-size:14px; }
+.spinner { width:28px; height:28px; border:3px solid var(–border); border-top-color:var(–blue); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 12px; }
+@keyframes spin { to { transform:rotate(360deg); } }
+.spacer { height:32px; }
 </style>
+
 </head>
 <body>
 <div id="app">
@@ -176,87 +123,244 @@
 </div>
 
 <script>
+// ══════════════════════════════════════════════════════════════
+//  CONFIG
+// ══════════════════════════════════════════════════════════════
 const WORKER_URL = "https://lucky10.rbklp7828.workers.dev/";
 const REFRESH_MS = 15_000;
-
 const COLORS = {
-  1:"#F5C518", 2:"#1565C0", 3:"#1a237e", 4:"#E65100",
-  5:"#00838F", 6:"#6A1B9A", 7:"#757575", 8:"#C62828",
-  9:"#4E342E", 10:"#2E7D32"
+  1:"#F5C518",2:"#1565C0",3:"#1a237e",4:"#E65100",
+  5:"#00838F",6:"#6A1B9A",7:"#757575",8:"#C62828",
+  9:"#4E342E",10:"#2E7D32"
+};
+const MODEL_COLORS = {
+  m1:"#4d8aff", m2:"#b06aff", freq:"#ffd166", cold:"#3ecf6f"
+};
+const MODEL_LABELS = {
+  m1:"馬可夫一階", m2:"馬可夫二階", freq:"頻率模型", cold:"冷熱模型"
 };
 
-// ── State ────────────────────────────────────────────────────────────────────
-let draws    = [];
-let tab      = "predict";
-let dataInfo = { updated:"", source:"" };
-let loadOk   = false;
-let loadErr  = false;
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+let draws       = [];
+let tab         = "predict";
+let dataInfo    = { updated:"", source:"" };
+let loadOk      = false;
+let loadErr     = false;
 let cdEl, cdInterval;
-let nextDrawEpoch = 0; // ms epoch of next draw
+let nextDrawEpoch = 0;
 
-// ── Countdown ─────────────────────────────────────────────────────────────────
-// Uses the last known draw time + 5min to compute exact next draw
-function computeNextDrawEpoch(updatedISO) {
-  if (!updatedISO) return 0;
-  const updated = new Date(updatedISO).getTime();
-  const period  = 300_000; // 5 min
-  // Next draw = last update time rounded up to next 5-min boundary
-  return Math.ceil(updated / period) * period;
+// Adaptive model weights (initialized equal, trained from history)
+let modelWeights = { m1:0.25, m2:0.25, freq:0.25, cold:0.25 };
+let weightsReady = false;
+
+// ══════════════════════════════════════════════════════════════
+//  COUNTDOWN
+// ══════════════════════════════════════════════════════════════
+function computeNextDrawEpoch(iso) {
+  if (!iso) return 0;
+  const t = new Date(iso).getTime();
+  return Math.ceil(t / 300_000) * 300_000;
 }
-
 function getCountdownSec() {
   if (!nextDrawEpoch) return 0;
-  const diff = Math.round((nextDrawEpoch - Date.now()) / 1000);
-  // If past, shift by one period
-  if (diff < 0) {
-    nextDrawEpoch += 300_000;
-    return 300;
-  }
+  let diff = Math.round((nextDrawEpoch - Date.now()) / 1000);
+  if (diff < 0) { nextDrawEpoch += 300_000; return 300; }
   return diff;
 }
-
 function fmtCD(s) {
   return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;
 }
-
 function startCountdown() {
   if (cdInterval) clearInterval(cdInterval);
   cdInterval = setInterval(() => {
     if (!cdEl) return;
     const s = getCountdownSec();
     cdEl.textContent = fmtCD(s);
-    cdEl.className   = "header-cd" + (s <= 30 ? " urgent" : "");
+    cdEl.className = "header-cd" + (s <= 30 ? " urgent" : "");
   }, 500);
 }
 
-// ── Prediction ────────────────────────────────────────────────────────────────
-function predict7(drawList) {
+// ══════════════════════════════════════════════════════════════
+//  PREDICTION MODELS
+// ══════════════════════════════════════════════════════════════
+
+// Helper: normalize a score object to sum=1
+function normalize(scores) {
+  const sum = Object.values(scores).reduce((a,b) => a+b, 0);
+  if (sum === 0) return uniform();
+  const out = {};
+  for (let n = 1; n <= 10; n++) out[n] = scores[n] / sum;
+  return out;
+}
+function uniform() {
+  const o = {}; for (let n=1;n<=10;n++) o[n]=0.1; return o;
+}
+function top7From(scores) {
+  return [1,2,3,4,5,6,7,8,9,10]
+    .sort((a,b) => scores[b]-scores[a])
+    .slice(0,7);
+}
+
+// ── MODEL 1: Markov Order-1 ──────────────────────────────────
+// P(next | current) — captures X→X repetition directly
+function markov1Score(drawList) {
+  if (drawList.length < 3) return uniform();
+  const trans = {};
+  for (let i=1;i<=10;i++) { trans[i]={}; for(let j=1;j<=10;j++) trans[i][j]=0.5; } // Laplace smoothing
+
+  // drawList[0]=newest; drawList[i+1]→drawList[i] is the transition
+  for (let i = 0; i < drawList.length - 1; i++) {
+    const from = drawList[i+1].numbers[0]; // previous draw
+    const to   = drawList[i].numbers[0];   // current draw (what followed)
+    trans[from][to]++;
+  }
+
+  const current = drawList[0].numbers[0];
+  const row = trans[current];
+  return normalize(row);
+}
+
+// ── MODEL 2: Markov Order-2 ──────────────────────────────────
+// P(next | prev-1, prev-2) — captures two-step patterns
+function markov2Score(drawList) {
+  if (drawList.length < 4) return markov1Score(drawList);
+  const trans = {};
+
+  for (let i = 0; i < drawList.length - 2; i++) {
+    const prev2 = drawList[i+2].numbers[0];
+    const prev1 = drawList[i+1].numbers[0];
+    const curr  = drawList[i].numbers[0];
+    const key   = `${prev2},${prev1}`;
+    if (!trans[key]) { trans[key]={}; for(let n=1;n<=10;n++) trans[key][n]=0.3; } // smoothing
+    trans[key][curr]++;
+  }
+
+  const prev2 = drawList[1].numbers[0];
+  const prev1 = drawList[0].numbers[0];
+  const key   = `${prev2},${prev1}`;
+  const row   = trans[key];
+  if (!row) return markov1Score(drawList); // fallback if state not seen
+  return normalize(row);
+}
+
+// ── MODEL 3: Frequency ──────────────────────────────────────
+// Hot numbers (appeared often as champion recently) get higher score
+function freqScore(drawList, window=25) {
+  const recent = drawList.slice(0, Math.min(window, drawList.length));
+  const freq   = {};
+  for (let n=1;n<=10;n++) freq[n]=0.1; // base
+  recent.forEach(d => { freq[d.numbers[0]]++; });
+  return normalize(freq);
+}
+
+// ── MODEL 4: Cold/Hot ────────────────────────────────────────
+// Cold numbers (haven't appeared for longest) get higher score
+function coldScore(drawList) {
+  if (drawList.length < 2) return uniform();
   const lastSeen = {};
-  for (let n=1; n<=10; n++) lastSeen[n]=9999;
-  drawList.forEach((d,i) => { if (lastSeen[d.numbers[0]]===9999) lastSeen[d.numbers[0]]=i; });
-  const ranked = [1,2,3,4,5,6,7,8,9,10].sort((a,b) => lastSeen[b]-lastSeen[a]);
+  for (let n=1;n<=10;n++) lastSeen[n]=9999;
+  drawList.forEach((d,i) => {
+    if (lastSeen[d.numbers[0]]===9999) lastSeen[d.numbers[0]]=i;
+  });
+  const scores = {};
+  const maxLs  = Math.max(...Object.values(lastSeen).map(v => v===9999 ? drawList.length+5 : v), 1);
+  for (let n=1;n<=10;n++) {
+    const ls = lastSeen[n]===9999 ? drawList.length+5 : lastSeen[n];
+    scores[n] = (ls + 1) / (maxLs + 2);
+  }
+  return normalize(scores);
+}
+
+// ── ADAPTIVE WEIGHT UPDATE ───────────────────────────────────
+function updateWeightsOnce(histDraws, actualNext) {
+  if (histDraws.length < 4) return;
+  const alpha = 0.12;
+  const hit   = (s) => top7From(s).includes(actualNext) ? 1 : 0;
+
+  modelWeights.m1   = (1-alpha)*modelWeights.m1   + alpha*hit(markov1Score(histDraws));
+  modelWeights.m2   = (1-alpha)*modelWeights.m2   + alpha*hit(markov2Score(histDraws));
+  modelWeights.freq = (1-alpha)*modelWeights.freq + alpha*hit(freqScore(histDraws));
+  modelWeights.cold = (1-alpha)*modelWeights.cold + alpha*hit(coldScore(histDraws));
+
+  // Normalize
+  const sum = modelWeights.m1+modelWeights.m2+modelWeights.freq+modelWeights.cold;
+  if (sum > 0) {
+    modelWeights.m1/=sum; modelWeights.m2/=sum;
+    modelWeights.freq/=sum; modelWeights.cold/=sum;
+  }
+}
+
+// Train weights on all available history (oldest→newest)
+function trainWeights(drawList) {
+  modelWeights = { m1:0.25, m2:0.25, freq:0.25, cold:0.25 };
+  const limit = Math.min(drawList.length - 1, 40);
+  for (let i = limit; i >= 1; i--) {
+    const hist   = drawList.slice(i); // older data
+    const actual = drawList[i-1].numbers[0]; // what happened next
+    updateWeightsOnce(hist, actual);
+  }
+  weightsReady = true;
+}
+
+// ── COMBINED PREDICTION ──────────────────────────────────────
+function combinedPredict(drawList) {
+  if (drawList.length < 4) {
+    // Simple cold fallback
+    const ls = {};
+    for (let n=1;n<=10;n++) ls[n]=9999;
+    drawList.forEach((d,i)=>{ if(ls[d.numbers[0]]===9999) ls[d.numbers[0]]=i; });
+    const ranked=[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>ls[b]-ls[a]);
+    return { pick:ranked.slice(0,7).sort((a,b)=>a-b), exclude:ranked.slice(7).sort((a,b)=>a-b),
+             scores:uniform(), weights:{...modelWeights}, repeatProb:0.1 };
+  }
+
+  const s1    = markov1Score(drawList);
+  const s2    = markov2Score(drawList);
+  const sFreq = freqScore(drawList);
+  const sCold = coldScore(drawList);
+
+  const { m1, m2, freq, cold } = modelWeights;
+  const combined = {};
+  for (let n=1;n<=10;n++) {
+    combined[n] = m1*s1[n] + m2*s2[n] + freq*sFreq[n] + cold*sCold[n];
+  }
+  const normCombined = normalize(combined);
+
+  const ranked  = [1,2,3,4,5,6,7,8,9,10].sort((a,b) => normCombined[b]-normCombined[a]);
+  const current = drawList[0].numbers[0];
+  // Markov1 self-transition probability (probability of repeat)
+  const repeatProb = s1[current] || 0;
+
   return {
-    pick:    ranked.slice(0,7).sort((a,b)=>a-b),
-    exclude: ranked.slice(7).sort((a,b)=>a-b),
-    lastSeen
+    pick:       ranked.slice(0,7).sort((a,b)=>a-b),
+    exclude:    ranked.slice(7).sort((a,b)=>a-b),
+    scores:     normCombined,
+    weights:    { ...modelWeights },
+    repeatProb,
+    current,
+    s1, s2, sFreq, sCold
   };
 }
 
 function buildHistory(drawList) {
   const rows = [];
   for (let i=1; i<Math.min(drawList.length-1,16); i++) {
-    const { pick } = predict7(drawList.slice(i+1));
-    const actual   = drawList[i].numbers[0];
-    // Show last 4 digits of draw_full as period number
-    const drawNum  = drawList[i].draw_full
+    const hist   = drawList.slice(i+1);
+    const result = combinedPredict(hist);
+    const actual = drawList[i].numbers[0];
+    const drawNum = drawList[i].draw_full
       ? String(+drawList[i].draw_full).slice(-4)
       : drawList[i].draw;
-    rows.push({ draw:drawNum, pick, actual, hit:pick.includes(actual) });
+    rows.push({ draw:drawNum, pick:result.pick, actual, hit:result.pick.includes(actual) });
   }
   return rows;
 }
 
-// ── Fetch ─────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  FETCH
+// ══════════════════════════════════════════════════════════════
 async function loadData(silent=false) {
   if (!silent) render();
   try {
@@ -266,22 +370,23 @@ async function loadData(silent=false) {
     if (!json.draws || json.draws.length < 3) throw new Error("No data");
     draws    = json.draws;
     dataInfo = { updated:json.updated, source:json.source };
-    // Fix period display: use last 4 digits of draw_full
     draws.forEach(d => {
-      if (d.draw_full && d.draw_full.length > 4) {
-        d.draw = String(+d.draw_full).slice(-4);
-      }
+      if (d.draw_full && d.draw_full.length > 4) d.draw = String(+d.draw_full).slice(-4);
     });
     nextDrawEpoch = computeNextDrawEpoch(json.updated);
     loadOk  = true;
     loadErr = false;
+    // Train adaptive weights from all available history
+    trainWeights(draws);
   } catch(e) {
     if (!draws.length) loadErr = true;
   }
   render();
 }
 
-// ── DOM helpers ───────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  DOM HELPERS
+// ══════════════════════════════════════════════════════════════
 function el(tag, cls, inner) {
   const e = document.createElement(tag);
   if (cls)   e.className = cls;
@@ -298,14 +403,15 @@ function ballLg(n) {
   d.textContent=n; return d;
 }
 
-// ── Render ────────────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  RENDER
+// ══════════════════════════════════════════════════════════════
 function render() {
   const app = document.getElementById("app");
   app.innerHTML = "";
 
   if (!draws.length && !loadErr) {
-    app.innerHTML=`<div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div>`;
-    return;
+    app.innerHTML=`<div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div>`; return;
   }
   if (loadErr) {
     app.innerHTML=`<div class="loading" style="margin-top:80px">
@@ -313,23 +419,18 @@ function render() {
       <div style="color:#ff4d4d">無法取得即時資料</div>
       <div style="font-size:12px;color:#666;margin-top:8px">請確認 Cloudflare Worker 運作中</div>
       <button class="refresh-btn" style="margin-top:16px;font-size:13px;padding:8px 20px;border-radius:10px;color:#4d8aff;border-color:#4d8aff" onclick="loadData()">重試</button>
-    </div>`;
-    return;
+    </div>`; return;
   }
 
-  const latest   = draws[0];
-  // Period number: use last 4 digits of draw_full
-  const periodNum = latest.draw_full
-    ? String(+latest.draw_full).slice(-4)
-    : latest.draw;
+  const latest    = draws[0];
+  const periodNum = latest.draw_full ? String(+latest.draw_full).slice(-4) : latest.draw;
   const nextPeriod = String(+periodNum + 1);
 
-  const { pick, exclude, lastSeen } = predict7(draws);
-  const history  = buildHistory(draws);
-  const hits     = history.filter(r=>r.hit).length;
-  const acc      = history.length ? Math.round(hits/history.length*100) : 0;
-  let streak=0; for (const r of history) { if (r.hit) streak++; else break; }
-  const maxScore = Math.max(...[1,2,3,4,5,6,7,8,9,10].map(n=>lastSeen[n]===9999?draws.length+5:lastSeen[n]),1);
+  const pred    = combinedPredict(draws);
+  const history = buildHistory(draws);
+  const hits    = history.filter(r=>r.hit).length;
+  const acc     = history.length ? Math.round(hits/history.length*100) : 0;
+  let streak=0; for (const r of history) { if(r.hit) streak++; else break; }
 
   // ── Header ──
   const header = el("div","header");
@@ -348,8 +449,7 @@ function render() {
 
   // ── Status bar ──
   const updTime = dataInfo.updated
-    ? new Date(dataInfo.updated).toLocaleString("zh-TW",{hour12:false,timeZone:"Asia/Taipei"})
-    : "未知";
+    ? new Date(dataInfo.updated).toLocaleString("zh-TW",{hour12:false,timeZone:"Asia/Taipei"}) : "未知";
   const sbar=el("div",`status-bar ${loadOk?"ok":"warn"}`);
   sbar.innerHTML=`<span>${loadOk?`✓ 最後更新：${updTime}`:`⚠ 示例資料`}</span>
     <button class="refresh-btn" id="refresh-btn" onclick="manualRefresh()">↻ 重整</button>`;
@@ -365,7 +465,7 @@ function render() {
 
   if (tab==="predict") {
 
-    // Prediction card
+    // ── Prediction card ──
     const card=el("div","card");
     const ch=el("div","card-head");
     const cl=el("div");
@@ -374,46 +474,80 @@ function render() {
     cb.innerHTML=`<div class="acc-val">${acc}%</div><div class="acc-label">歷史命中率</div>`;
     ch.append(cl,cb); card.appendChild(ch);
 
+    // Recommended balls
     const sl1=el("div","section-label");
-    sl1.innerHTML=`✅ 推薦號碼 <span>（7碼・最久沒開過冠軍）</span>`;
+    sl1.innerHTML=`✅ 推薦號碼 <span>（7碼・綜合模型最高機率）</span>`;
     card.appendChild(sl1);
     const bb=el("div","big-balls");
-    pick.forEach(n=>bb.appendChild(ballLg(n)));
+    pred.pick.forEach(n=>bb.appendChild(ballLg(n)));
     card.appendChild(bb);
     card.appendChild(el("div","divider"));
 
+    // Excluded balls
     const sl2=el("div","section-label");
-    sl2.innerHTML=`➖ 排除號碼 <span>（最近剛開過冠軍）</span>`;
+    sl2.innerHTML=`➖ 排除號碼 <span>（綜合機率最低3碼）</span>`;
     card.appendChild(sl2);
     const sb=el("div","small-balls");
-    exclude.forEach(n=>{
+    pred.exclude.forEach(n=>{
       const wrap=el("div","ball-md");
       const circ=el("div","ball-md-circle");
       circ.style.cssText=`background:#2a2d3e;color:#555`;
       circ.textContent=n;
       const sub=el("div","ball-md-sub");
-      sub.textContent=lastSeen[n]===9999?"未出現":`${lastSeen[n]+1}期前`;
+      sub.textContent=`${(pred.scores[n]*100).toFixed(1)}%`;
       wrap.append(circ,sub); sb.appendChild(wrap);
     });
     card.appendChild(sb);
+
+    // Repeat risk indicator
+    const repPct = Math.round(pred.repeatProb*100);
+    const repColor = repPct >= 15 ? "#ffd166" : repPct >= 10 ? "#4d8aff" : "#3ecf6f";
+    const repBox = el("div","repeat-box");
+    repBox.innerHTML=`
+      <div class="repeat-icon">🔁</div>
+      <div class="repeat-label">冠軍 <b style="color:${COLORS[pred.current]}">${pred.current}</b> 連續出現機率<br><span style="font-size:10px">（馬可夫一階自轉移概率）</span></div>
+      <div class="repeat-val" style="color:${repColor}">${repPct}%</div>`;
+    card.appendChild(repBox);
+
+    // Model weights
+    const wDiv = el("div","weights-wrap");
+    const wTitle = el("div");
+    wTitle.style.cssText="font-size:11px;color:var(--text2);margin-bottom:2px;font-weight:600";
+    wTitle.textContent="🧠 自適應模型權重";
+    wDiv.appendChild(wTitle);
+
+    [["m1","馬可夫一階"],["m2","馬可夫二階"],["freq","頻率模型"],["cold","冷熱模型"]].forEach(([key,label])=>{
+      const pct = Math.round(pred.weights[key]*100);
+      const row = el("div","wt-row");
+      const lbl = el("div","wt-label"); lbl.textContent=label;
+      const trk = el("div","wt-track");
+      const fill= el("div","wt-fill");
+      fill.style.cssText=`width:${pct}%;background:${MODEL_COLORS[key]}`;
+      trk.appendChild(fill);
+      const pctEl=el("div","wt-pct");
+      pctEl.style.color=MODEL_COLORS[key]; pctEl.textContent=pct+"%";
+      row.append(lbl,trk,pctEl); wDiv.appendChild(row);
+    });
+    card.appendChild(wDiv);
+
     const tip=el("div","tip-box");
-    tip.innerHTML=`💡 <b style="color:#e8eaf0">冷號策略</b>：選出最久沒當過冠軍的 7 個號碼。<br>下期仍可能開出任何號碼，此為統計趨勢參考，非必中預測。`;
+    tip.innerHTML=`💡 <b style="color:#e8eaf0">四模型自適應融合</b>：馬可夫一/二階捕捉轉移模式（含重複號），頻率模型追蹤熱號，冷熱模型補捉久未出現的號碼。系統根據每期命中率自動調整各模型權重。`;
     card.appendChild(tip);
     app.appendChild(card);
 
-    // Chart card
+    // ── Score chart card ──
     const cc=el("div","card");
-    cc.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">冷熱分析</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:12px">距今幾期前曾開出冠軍（越高＝越冷＝優先推薦）</div>`;
+    cc.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">綜合機率分佈</div>
+      <div style="font-size:11px;color:var(--text2);margin-bottom:12px">各號碼下期成為冠軍的綜合機率（越高越優先推薦）</div>`;
     const cw=el("div","chart-wrap");
+    const maxScore=Math.max(...[1,2,3,4,5,6,7,8,9,10].map(n=>pred.scores[n]));
     for (let n=1;n<=10;n++) {
-      const inPick=pick.includes(n);
-      const cold=lastSeen[n]===9999?draws.length+5:lastSeen[n];
-      const barH=Math.max(Math.round(cold/maxScore*58),5);
+      const inPick=pred.pick.includes(n);
+      const barH=Math.max(Math.round(pred.scores[n]/maxScore*58),4);
       const col=el("div","chart-col");
       const numEl=el("div","chart-num");
-      numEl.style.color=inPick?"#4d8aff":"#333";
-      numEl.textContent=lastSeen[n]===9999?"—":(lastSeen[n]+1);
+      numEl.style.color=inPick?"#4d8aff":"#444";
+      numEl.textContent=(pred.scores[n]*100).toFixed(1)+"%";
       const bar=el("div","chart-bar");
       bar.style.height=barH+"px";
       bar.style.background=inPick?COLORS[n]:"#2a2d3e";
@@ -424,12 +558,12 @@ function render() {
     }
     cc.appendChild(cw);
     const leg=el("div","chart-legend");
-    leg.innerHTML=`<div class="legend-dot"><div class="dot" style="background:#4d8aff"></div>推薦（冷）</div>
-      <div class="legend-dot"><div class="dot" style="background:#2a2d3e;border:1px solid #444"></div>排除（熱）</div>`;
+    leg.innerHTML=`<div class="legend-dot"><div class="dot" style="background:#4d8aff"></div>推薦（高機率）</div>
+      <div class="legend-dot"><div class="dot" style="background:#2a2d3e;border:1px solid #444"></div>排除（低機率）</div>`;
     cc.appendChild(leg);
     app.appendChild(cc);
 
-    // Stats
+    // ── Stats ──
     const sr=el("div","stats-row");
     [{v:acc+"%",l:"歷史命中率",c:acc>=70?"#3ecf6f":"#ff4d4d"},
      {v:streak+"期",l:"當前連中",c:"#4d8aff"},
@@ -442,7 +576,7 @@ function render() {
 
   } else {
 
-    // History table
+    // ── History ──
     const tw=el("div","table-wrap");
     const th=el("div","table-head");
     th.innerHTML=`<span>期號</span><span>推薦7碼（冠軍加框）</span><span>結果</span>`;
@@ -457,7 +591,7 @@ function render() {
         const b=el("div","hist-ball");
         const isA=n===row.actual;
         b.style.cssText=`background:${isA?COLORS[n]:"#2a2d3e"};color:${isA?"#fff":"#444"};font-weight:800`;
-        if(isA) b.style.boxShadow=`0 0 0 2px ${COLORS[n]}, 0 2px 6px ${COLORS[n]}88`;
+        if(isA) b.style.boxShadow=`0 0 0 2px ${COLORS[n]},0 2px 6px ${COLORS[n]}88`;
         b.textContent=n; td2.appendChild(b);
       });
       if (!row.hit) {
@@ -480,7 +614,9 @@ function render() {
   startCountdown();
 }
 
-// ── Manual refresh ────────────────────────────────────────────────────────────
+// ══════════════════════════════════════════════════════════════
+//  MANUAL REFRESH
+// ══════════════════════════════════════════════════════════════
 let refreshing=false;
 async function manualRefresh() {
   if (refreshing) return;
@@ -494,5 +630,6 @@ async function manualRefresh() {
 setInterval(()=>loadData(true), REFRESH_MS);
 loadData();
 </script>
+
 </body>
 </html>
