@@ -4,520 +4,454 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>澳洲幸運10 · 冠軍預測</title>
+<title>澳洲幸運10 · 預測</title>
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg:#0f1117; --bg2:#1a1d27; --bg3:#22263a; --border:#2e3350;
-  --text:#e8eaf0; --text2:#8b91a8;
-  --blue:#4d8aff; --blue-dim:#1e3a6e;
-  --green:#3ecf6f; --green-dim:#0f3320;
-  --red:#ff4d4d; --red-dim:#3a0f0f;
-  --yellow:#ffd166;
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0f1117;--bg2:#1a1d27;--bg3:#22263a;--border:#2e3350;
+  --text:#e8eaf0;--text2:#8b91a8;
+  --blue:#4d8aff;--blue-dim:#1e3a6e;
+  --green:#3ecf6f;--green-dim:#0f3320;
+  --red:#ff4d4d;--red-dim:#3a0f0f;
+  --yellow:#ffd166;--purple:#b06aff;--cyan:#00d4ff;
 }
-body {
-  font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",sans-serif;
-  background:var(--bg); min-height:100vh;
-  display:flex; justify-content:center; color:var(--text);
-}
-#app { width:100%; max-width:430px; min-height:100vh; }
+body{font-family:"PingFang SC","Noto Sans SC","Helvetica Neue",sans-serif;
+  background:var(--bg);min-height:100vh;display:flex;justify-content:center;color:var(--text)}
+#app{width:100%;max-width:430px;min-height:100vh}
 
-/* ── Lock Screen ── */
-#lock-screen {
-position:fixed; inset:0; background:#0a0c12;
-display:flex; flex-direction:column;
-align-items:center; justify-content:center;
-z-index:999; padding:40px 32px;
-}
-.lock-icon { font-size:64px; margin-bottom:20px; }
-.lock-title { font-size:24px; font-weight:900; color:var(–yellow); margin-bottom:8px; letter-spacing:1px; }
-.lock-sub   { font-size:14px; color:var(–text2); margin-bottom:40px; }
-.lock-input-wrap { width:100%; max-width:320px; margin-bottom:16px; position:relative; }
-.lock-input {
-width:100%; padding:16px 48px 16px 20px;
-background:#1a1d27; border:1.5px solid var(–border);
-border-radius:14px; font-size:18px; color:var(–text);
-letter-spacing:4px; text-align:center; outline:none;
-font-family:monospace;
-transition:border-color .2s;
-}
-.lock-input:focus { border-color:var(–yellow); }
-.lock-input.error { border-color:var(–red); animation:shake .3s ease; }
-@keyframes shake {
-0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)}
-}
-.eye-btn {
-position:absolute; right:14px; top:50%; transform:translateY(-50%);
-background:none; border:none; cursor:pointer; font-size:20px; color:var(–text2);
-}
-.lock-btn {
-width:100%; max-width:320px; padding:16px;
-background:linear-gradient(135deg,#c8960c,#ffd166);
-border:none; border-radius:14px;
-font-size:16px; font-weight:800; color:#1a1200;
-cursor:pointer; transition:opacity .2s;
-display:flex; align-items:center; justify-content:center; gap:8px;
-}
-.lock-btn:active { opacity:.85; }
-.lock-msg { margin-top:14px; font-size:13px; min-height:20px; text-align:center; }
-.lock-msg.err { color:var(–red); }
-.lock-msg.ok  { color:var(–green); }
+/* Lock */
+#lock-screen{position:fixed;inset:0;background:#0a0c12;display:flex;flex-direction:column;
+align-items:center;justify-content:center;z-index:999;padding:40px 32px}
+.lock-icon{font-size:64px;margin-bottom:20px}
+.lock-title{font-size:24px;font-weight:900;color:var(–yellow);margin-bottom:8px;letter-spacing:1px}
+.lock-sub{font-size:14px;color:var(–text2);margin-bottom:40px}
+.lock-input-wrap{width:100%;max-width:320px;margin-bottom:16px;position:relative}
+.lock-input{width:100%;padding:16px 48px 16px 20px;background:#1a1d27;
+border:1.5px solid var(–border);border-radius:14px;font-size:18px;color:var(–text);
+letter-spacing:4px;text-align:center;outline:none;font-family:monospace;transition:border-color .2s}
+.lock-input:focus{border-color:var(–yellow)}
+.lock-input.error{border-color:var(–red);animation:shake .3s ease}
+@keyframes shake{0%,100%{transform:translateX(0)}20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+.eye-btn{position:absolute;right:14px;top:50%;transform:translateY(-50%);
+background:none;border:none;cursor:pointer;font-size:20px;color:var(–text2)}
+.lock-btn{width:100%;max-width:320px;padding:16px;
+background:linear-gradient(135deg,#c8960c,#ffd166);border:none;border-radius:14px;
+font-size:16px;font-weight:800;color:#1a1200;cursor:pointer;transition:opacity .2s;
+display:flex;align-items:center;justify-content:center;gap:8px}
+.lock-btn:active{opacity:.85}
+.lock-msg{margin-top:14px;font-size:13px;min-height:20px;text-align:center}
+.lock-msg.err{color:var(–red)}.lock-msg.ok{color:var(–green)}
 
-/* ── Timer bar (P1 session) ── */
-#timer-bar {
-display:none; background:#1f1a0a; color:var(–yellow);
-padding:6px 16px; font-size:12px; font-weight:600;
-border-bottom:1px solid var(–border);
-display:flex; align-items:center; justify-content:space-between;
-}
+/* Header */
+.header{background:linear-gradient(160deg,#1a2540 0%,#0f1620 100%);
+padding:20px 18px 22px;border-bottom:1px solid var(–border)}
+.header-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px}
+.header-label{font-size:11px;color:var(–text2);letter-spacing:1px;margin-bottom:3px}
+.header-draw{font-size:20px;font-weight:800}
+.header-right{text-align:right}
+.header-cd-label{font-size:10px;color:var(–text2);margin-bottom:2px}
+.header-cd{font-size:32px;font-weight:900;letter-spacing:3px;font-variant-numeric:tabular-nums;color:var(–yellow)}
+.header-cd.urgent{color:var(–red);animation:blink .6s ease-in-out infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.4}}
+.balls-row{display:flex;gap:6px;flex-wrap:wrap}
+.ball-sm{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+font-size:11px;font-weight:800;color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 2px 3px rgba(255,255,255,.2)}
 
-/* ── Header ── */
-.header {
-background:linear-gradient(160deg,#1a2540 0%,#0f1620 100%);
-padding:20px 18px 22px; border-bottom:1px solid var(–border);
-}
-.header-top { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:14px; }
-.header-label { font-size:11px; color:var(–text2); letter-spacing:1px; margin-bottom:3px; }
-.header-draw  { font-size:20px; font-weight:800; }
-.header-right { text-align:right; }
-.header-cd-label { font-size:10px; color:var(–text2); margin-bottom:2px; }
-.header-cd {
-font-size:32px; font-weight:900; letter-spacing:3px;
-font-variant-numeric:tabular-nums; color:var(–yellow);
-}
-.header-cd.urgent { color:var(–red); animation:blink .6s ease-in-out infinite; }
-@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.4} }
-.balls-row { display:flex; gap:6px; flex-wrap:wrap; }
-.ball-sm {
-width:30px; height:30px; border-radius:50%;
-display:flex; align-items:center; justify-content:center;
-font-size:11px; font-weight:800; color:#fff;
-box-shadow:0 2px 8px rgba(0,0,0,.5),inset 0 2px 3px rgba(255,255,255,.2);
-}
+/* Status */
+.status-bar{padding:8px 16px;display:flex;align-items:center;justify-content:space-between;
+font-size:12px;font-weight:600;border-bottom:1px solid var(–border)}
+.status-bar.ok{background:#0d2218;color:var(–green)}
+.status-bar.warn{background:#1f1a0a;color:var(–yellow)}
+.refresh-btn{font-size:11px;padding:3px 9px;border-radius:10px;
+border:1.5px solid currentColor;background:transparent;color:inherit;cursor:pointer;font-weight:700}
+.refresh-btn:disabled{opacity:.4;cursor:not-allowed}
 
-/* ── Status bar ── */
-.status-bar {
-padding:8px 16px; display:flex; align-items:center; justify-content:space-between;
-font-size:12px; font-weight:600; border-bottom:1px solid var(–border);
-}
-.status-bar.ok   { background:#0d2218; color:var(–green); }
-.status-bar.warn { background:#1f1a0a; color:var(–yellow); }
-.refresh-btn {
-font-size:11px; padding:3px 9px; border-radius:10px;
-border:1.5px solid currentColor; background:transparent;
-color:inherit; cursor:pointer; font-weight:700;
-}
-.refresh-btn:disabled { opacity:.4; cursor:not-allowed; }
-
-/* ── Position selector ── */
-.pos-bar {
-background:var(–bg2); border-bottom:1px solid var(–border);
-padding:10px 16px; display:flex; align-items:center; gap:10px;
-}
-.pos-label { font-size:12px; color:var(–text2); flex-shrink:0; }
-.pos-select {
-flex:1; background:var(–bg3); border:1.5px solid var(–border);
-border-radius:10px; color:var(–text); font-size:14px; font-weight:700;
-padding:8px 14px; cursor:pointer; outline:none; appearance:none;
--webkit-appearance:none;
+/* Selector bar */
+.sel-bar{background:var(–bg2);border-bottom:1px solid var(–border);
+padding:10px 16px;display:flex;align-items:center;gap:10px}
+.sel-label{font-size:12px;color:var(–text2);flex-shrink:0;width:64px}
+.sel-select{flex:1;background:var(–bg3);border:1.5px solid var(–border);
+border-radius:10px;color:var(–text);font-size:14px;font-weight:700;
+padding:8px 32px 8px 14px;cursor:pointer;outline:none;appearance:none;-webkit-appearance:none;
 background-image:url(“data:image/svg+xml,%3Csvg xmlns=‘http://www.w3.org/2000/svg’ width=‘12’ height=‘8’ viewBox=‘0 0 12 8’%3E%3Cpath d=‘M1 1l5 5 5-5’ stroke=’%238b91a8’ stroke-width=‘2’ fill=‘none’ stroke-linecap=‘round’/%3E%3C/svg%3E”);
-background-repeat:no-repeat; background-position:right 12px center;
-padding-right:32px;
-font-family:“PingFang SC”,“Noto Sans SC”,“Helvetica Neue”,sans-serif;
-}
-.pos-select:focus { border-color:var(–blue); }
-.pos-select option { background:#1a1d27; }
+background-repeat:no-repeat;background-position:right 12px center;
+font-family:“PingFang SC”,“Noto Sans SC”,“Helvetica Neue”,sans-serif}
+.sel-select:focus{border-color:var(–blue)}
+.sel-select option{background:#1a1d27}
 
-/* ── Tabs ── */
-.tabs { display:flex; background:var(–bg2); border-bottom:1px solid var(–border); }
-.tab {
-flex:1; padding:13px 0; text-align:center;
-font-size:14px; font-weight:400; color:var(–text2);
-border-bottom:2.5px solid transparent; cursor:pointer; transition:all .15s;
-}
-.tab.active { font-weight:700; color:var(–blue); border-bottom-color:var(–blue); }
+/* Tabs */
+.tabs{display:flex;background:var(–bg2);border-bottom:1px solid var(–border)}
+.tab{flex:1;padding:13px 0;text-align:center;font-size:14px;font-weight:400;color:var(–text2);
+border-bottom:2.5px solid transparent;cursor:pointer;transition:all .15s}
+.tab.active{font-weight:700;color:var(–blue);border-bottom-color:var(–blue)}
 
-/* ── Cards ── */
-.card {
-background:var(–bg2); border-radius:16px;
-padding:18px 16px; margin:12px;
-border:1px solid var(–border); box-shadow:0 4px 20px rgba(0,0,0,.3);
-}
-.card-head { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
-.card-title { font-size:12px; color:var(–text2); margin-bottom:3px; }
-.card-draw  { font-size:19px; font-weight:800; }
-.acc-badge { text-align:center; background:var(–blue-dim); border-radius:12px; padding:8px 14px; border:1px solid #2a4a8a; }
-.acc-val   { font-size:24px; font-weight:900; color:var(–blue); }
-.acc-label { font-size:10px; color:var(–text2); }
+/* Cards */
+.card{background:var(–bg2);border-radius:16px;padding:18px 16px;margin:12px;
+border:1px solid var(–border);box-shadow:0 4px 20px rgba(0,0,0,.3)}
+.card-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:18px}
+.card-title{font-size:12px;color:var(–text2);margin-bottom:3px}
+.card-draw{font-size:19px;font-weight:800}
+.acc-badge{text-align:center;background:var(–blue-dim);border-radius:12px;padding:8px 14px;border:1px solid #2a4a8a}
+.acc-val{font-size:24px;font-weight:900;color:var(–blue)}
+.acc-label{font-size:10px;color:var(–text2)}
 
-.section-label { font-size:12px; color:var(–text2); font-weight:600; margin-bottom:10px; }
-.section-label span { color:#444; font-weight:400; }
-.big-balls { display:flex; gap:9px; flex-wrap:wrap; margin-bottom:16px; }
-.ball-lg {
-width:46px; height:46px; border-radius:50%;
-display:flex; align-items:center; justify-content:center;
-font-size:15px; font-weight:800; color:#fff;
-box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.25);
-}
-.small-balls { display:flex; gap:9px; }
-.ball-md { display:flex; flex-direction:column; align-items:center; gap:3px; }
-.ball-md-circle {
-width:36px; height:36px; border-radius:50%;
-display:flex; align-items:center; justify-content:center;
-font-size:13px; font-weight:800;
-}
-.ball-md-sub { font-size:9px; color:var(–text2); }
-.divider { height:1px; background:var(–border); margin:14px 0; }
+.section-label{font-size:12px;color:var(–text2);font-weight:600;margin-bottom:10px}
+.section-label span{color:#444;font-weight:400}
+.big-balls{display:flex;gap:9px;flex-wrap:wrap;margin-bottom:16px}
+.ball-lg{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+font-size:15px;font-weight:800;color:#fff;
+box-shadow:0 4px 14px rgba(0,0,0,.4),inset 0 2px 4px rgba(255,255,255,.25)}
+.small-balls{display:flex;gap:9px}
+.ball-md{display:flex;flex-direction:column;align-items:center;gap:3px}
+.ball-md-circle{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800}
+.ball-md-sub{font-size:9px;color:var(–text2)}
+.divider{height:1px;background:var(–border);margin:14px 0}
 
-/* ── Repeat box ── */
-.repeat-box {
-margin-top:12px; padding:10px 12px; border-radius:10px;
-background:var(–bg3); border:1px solid var(–border);
-display:flex; align-items:center; gap:10px;
-}
-.repeat-icon  { font-size:20px; flex-shrink:0; }
-.repeat-label { font-size:11px; color:var(–text2); flex:1; }
-.repeat-val   { font-size:18px; font-weight:900; flex-shrink:0; }
+/* Big/Small Odd/Even panel */
+.bsoe-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
+.bsoe-card{border-radius:12px;padding:12px 14px;border:1px solid var(–border);background:var(–bg3);display:flex;flex-direction:column;gap:6px}
+.bsoe-row{display:flex;align-items:center;justify-content:space-between}
+.bsoe-title{font-size:11px;color:var(–text2);font-weight:600}
+.bsoe-bar-wrap{flex:1;margin:0 8px;height:6px;background:var(–bg2);border-radius:3px;overflow:hidden}
+.bsoe-bar{height:100%;border-radius:3px;transition:width .4s ease}
+.bsoe-pct{font-size:13px;font-weight:800;min-width:34px;text-align:right}
+.bsoe-recommend{font-size:11px;font-weight:700;padding:3px 8px;border-radius:6px;text-align:center}
 
-/* ── Chart ── */
-.chart-wrap { display:flex; gap:5px; align-items:flex-end; height:84px; }
-.chart-col  { flex:1; display:flex; flex-direction:column; align-items:center; gap:3px; }
-.chart-num  { font-size:8px; font-weight:700; }
-.chart-bar  { width:100%; border-radius:3px 3px 0 0; transition:height .35s ease; }
-.chart-ball { width:22px; height:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:9px; font-weight:800; }
-.chart-legend { display:flex; gap:14px; margin-top:10px; justify-content:center; }
-.legend-dot { display:flex; align-items:center; gap:4px; font-size:10px; color:var(–text2); }
-.dot { width:10px; height:10px; border-radius:50%; }
+/* Repeat box */
+.repeat-box{margin-top:12px;padding:10px 12px;border-radius:10px;
+background:var(–bg3);border:1px solid var(–border);display:flex;align-items:center;gap:10px}
+.repeat-icon{font-size:20px;flex-shrink:0}
+.repeat-label{font-size:11px;color:var(–text2);flex:1}
+.repeat-val{font-size:18px;font-weight:900;flex-shrink:0}
 
-/* ── Stats ── */
-.stats-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin:0 12px 12px; }
-.stat-card { background:var(–bg2); border-radius:12px; padding:14px 6px; text-align:center; border:1px solid var(–border); }
-.stat-val  { font-size:22px; font-weight:800; }
-.stat-label{ font-size:10px; color:var(–text2); margin-top:2px; }
+/* Chart */
+.chart-wrap{display:flex;gap:5px;align-items:flex-end;height:84px}
+.chart-col{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px}
+.chart-num{font-size:8px;font-weight:700}
+.chart-bar{width:100%;border-radius:3px 3px 0 0;transition:height .35s ease}
+.chart-ball{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800}
+.chart-legend{display:flex;gap:14px;margin-top:10px;justify-content:center}
+.legend-dot{display:flex;align-items:center;gap:4px;font-size:10px;color:var(–text2)}
+.dot{width:10px;height:10px;border-radius:50%}
 
-/* ── History ── */
-.table-wrap { background:var(–bg2); border-radius:14px; overflow:hidden; border:1px solid var(–border); margin:12px; }
-.table-head { display:grid; grid-template-columns:54px 1fr 44px; padding:11px 14px; background:var(–bg3); border-bottom:1px solid var(–border); }
-.table-head span { font-size:11px; font-weight:700; color:var(–text2); }
-.table-row {
-display:grid; grid-template-columns:54px 1fr 44px;
-padding:11px 14px; border-bottom:1px solid var(–border); align-items:center;
-}
-.table-row:last-child { border-bottom:none; }
-.table-row:nth-child(odd)  { background:var(–bg2); }
-.table-row:nth-child(even) { background:var(–bg3); }
-.row-draw  { font-size:13px; font-weight:700; }
-.row-balls { display:flex; gap:3px; flex-wrap:wrap; align-items:center; }
-.hist-ball { width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; }
-.hist-miss-note { font-size:10px; color:var(–red); margin-left:2px; white-space:nowrap; }
-.badge-hit  { background:var(–green-dim); color:var(–green); font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; border:1px solid #1a5c35; }
-.badge-miss { background:var(–red-dim);   color:var(–red);   font-size:12px; font-weight:800; padding:3px 7px; border-radius:7px; border:1px solid #5c1a1a; }
-.table-foot { padding:11px 16px; background:var(–bg3); border-top:1px solid var(–border); text-align:center; font-size:12px; color:var(–text2); }
+/* Stats */
+.stats-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:0 12px 12px}
+.stat-card{background:var(–bg2);border-radius:12px;padding:14px 6px;text-align:center;border:1px solid var(–border)}
+.stat-val{font-size:22px;font-weight:800}
+.stat-label{font-size:10px;color:var(–text2);margin-top:2px}
 
-/* ── Loading ── */
-.loading { padding:48px 0; text-align:center; color:var(–text2); font-size:14px; }
-.spinner { width:28px; height:28px; border:3px solid var(–border); border-top-color:var(–blue); border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 12px; }
-@keyframes spin { to { transform:rotate(360deg); } }
-.spacer { height:32px; }
+/* History */
+.table-wrap{background:var(–bg2);border-radius:14px;overflow:hidden;border:1px solid var(–border);margin:12px}
+.table-head{display:grid;grid-template-columns:54px 1fr 44px;padding:11px 14px;background:var(–bg3);border-bottom:1px solid var(–border)}
+.table-head span{font-size:11px;font-weight:700;color:var(–text2)}
+.table-row{display:grid;grid-template-columns:54px 1fr 44px;padding:11px 14px;border-bottom:1px solid var(–border);align-items:center}
+.table-row:last-child{border-bottom:none}
+.table-row:nth-child(odd){background:var(–bg2)}
+.table-row:nth-child(even){background:var(–bg3)}
+.row-draw{font-size:13px;font-weight:700}
+.row-balls{display:flex;gap:3px;flex-wrap:wrap;align-items:center}
+.hist-ball{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800}
+.hist-miss-note{font-size:10px;color:var(–red);margin-left:2px;white-space:nowrap}
+.badge-hit{background:var(–green-dim);color:var(–green);font-size:12px;font-weight:800;padding:3px 7px;border-radius:7px;border:1px solid #1a5c35}
+.badge-miss{background:var(–red-dim);color:var(–red);font-size:12px;font-weight:800;padding:3px 7px;border-radius:7px;border:1px solid #5c1a1a}
+.table-foot{padding:11px 16px;background:var(–bg3);border-top:1px solid var(–border);text-align:center;font-size:12px;color:var(–text2)}
+
+/* Loading */
+.loading{padding:48px 0;text-align:center;color:var(–text2);font-size:14px}
+.spinner{width:28px;height:28px;border:3px solid var(–border);border-top-color:var(–blue);
+border-radius:50%;animation:spin .8s linear infinite;margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spacer{height:32px}
 </style>
 
 </head>
 <body>
 
-<!-- ══ LOCK SCREEN ══ -->
+<!-- LOCK -->
 
 <div id="lock-screen">
   <div class="lock-icon">🔐</div>
   <div class="lock-title">澳洲幸運10 預測</div>
   <div class="lock-sub">請輸入密碼以解鎖使用</div>
   <div class="lock-input-wrap">
-    <input class="lock-input" id="pw-input" type="password"
-           placeholder="輸入密碼" maxlength="20"
-           onkeydown="if(event.key==='Enter')tryUnlock()">
+    <input class="lock-input" id="pw-input" type="password" placeholder="輸入密碼" maxlength="20"
+      onkeydown="if(event.key==='Enter')tryUnlock()">
     <button class="eye-btn" id="eye-btn" onclick="toggleEye()">👁</button>
   </div>
   <button class="lock-btn" onclick="tryUnlock()">🔑 解鎖進入</button>
   <div class="lock-msg" id="lock-msg"></div>
 </div>
 
-<!-- ══ MAIN APP ══ -->
+<!-- MAIN -->
 
-<div id="main-app" style="display:none; width:100%; max-width:430px;">
-  <!-- P1 session timer bar -->
-  <div id="timer-bar" style="display:none; background:#1f1a0a; color:var(--yellow); padding:6px 16px; font-size:12px; font-weight:600; border-bottom:1px solid var(--border); display:none; align-items:center; justify-content:space-between;">
-    <span>⏱ 訪客模式剩餘時間：</span>
-    <span id="timer-val" style="font-variant-numeric:tabular-nums;">60:00</span>
+<div id="main-app" style="display:none;width:100%;max-width:430px">
+  <div id="timer-bar" style="display:none;background:#1f1a0a;color:var(--yellow);padding:6px 16px;font-size:12px;font-weight:600;border-bottom:1px solid var(--border);align-items:center;justify-content:space-between">
+    <span>⏱ 訪客模式剩餘：</span><span id="timer-val" style="font-variant-numeric:tabular-nums">60:00</span>
   </div>
-  <div id="app">
-    <div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div>
-  </div>
+  <div id="app"><div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div></div>
 </div>
 
 <script>
-// ══════════════════════════════════════════════════════════════
-//  CONSTANTS
-// ══════════════════════════════════════════════════════════════
-const WORKER_URL  = "https://lucky10.rbklp7828.workers.dev/";
-const REFRESH_MS  = 15_000;
-const POS_NAMES   = ["冠軍","亞軍","第三名","第四名","第五名","第六名","第七名","第八名","第九名","第十名"];
-const P1          = "12341234";
-const P2          = "78287828";
-const P1_DURATION = 3600_000; // 1 hour ms
-const COLORS = {
-  1:"#F5C518",2:"#1565C0",3:"#1a237e",4:"#E65100",
-  5:"#00838F",6:"#6A1B9A",7:"#757575",8:"#C62828",
-  9:"#4E342E",10:"#2E7D32"
-};
+// ════════════════════════════════════════════════
+// CONFIG
+// ════════════════════════════════════════════════
+const WORKER_URL = "https://lucky10.rbklp7828.workers.dev/";
+const REFRESH_MS = 15_000;
+const POS_NAMES  = ["冠軍","亞軍","第三名","第四名","第五名","第六名","第七名","第八名","第九名","第十名"];
+const P1 = "12341234", P2 = "78287828", P1_MS = 3600_000;
+const COLORS = {1:"#F5C518",2:"#1565C0",3:"#1a237e",4:"#E65100",5:"#00838F",6:"#6A1B9A",7:"#757575",8:"#C62828",9:"#4E342E",10:"#2E7D32"};
 
-// ══════════════════════════════════════════════════════════════
-//  PASSWORD / SESSION
-// ══════════════════════════════════════════════════════════════
-let sessionLevel = null; // 'p1' | 'p2'
-let p1StartTime  = 0;
-let timerInterval = null;
+// ════════════════════════════════════════════════
+// PASSWORD / SESSION
+// ════════════════════════════════════════════════
+let sessionLevel=null, p1StartTime=0, timerInterval=null;
 
-function tryUnlock() {
-  const pw  = document.getElementById("pw-input").value.trim();
-  const msg = document.getElementById("lock-msg");
-  const inp = document.getElementById("pw-input");
-
-  if (pw === P2) {
-    sessionLevel = "p2";
-    unlockApp();
-    return;
-  }
-
-  if (pw === P1) {
-    // Check if P1 is permanently burned
-    const burned = localStorage.getItem("p1_burned");
-    if (burned === "1") {
-      showLockErr(inp, msg, "此密碼已失效，請使用第二組密碼");
-      return;
-    }
-    // Check if there's an active P1 session stored
-    const storedStart = localStorage.getItem("p1_start");
-    if (storedStart) {
-      const elapsed = Date.now() - parseInt(storedStart);
-      if (elapsed >= P1_DURATION) {
-        // Already expired → burn it
-        localStorage.setItem("p1_burned", "1");
-        localStorage.removeItem("p1_start");
-        showLockErr(inp, msg, "訪客時數已用完，請使用第二組密碼");
-        return;
+function tryUnlock(){
+  const pw=document.getElementById("pw-input").value.trim();
+  const msg=document.getElementById("lock-msg");
+  const inp=document.getElementById("pw-input");
+  if(pw===P2){sessionLevel="p2";unlockApp();return}
+  if(pw===P1){
+    if(localStorage.getItem("p1_burned")==="1"){showLockErr(inp,msg,"此密碼已失效，請使用第二組密碼");return}
+    const st=localStorage.getItem("p1_start");
+    if(st){
+      if(Date.now()-parseInt(st)>=P1_MS){
+        localStorage.setItem("p1_burned","1");localStorage.removeItem("p1_start");
+        showLockErr(inp,msg,"訪客時數已用完，請使用第二組密碼");return
       }
-      // Resume existing session
-      p1StartTime = parseInt(storedStart);
-    } else {
-      // Fresh P1 session
-      p1StartTime = Date.now();
-      localStorage.setItem("p1_start", String(p1StartTime));
-    }
-    sessionLevel = "p1";
-    unlockApp();
-    return;
+      p1StartTime=parseInt(st);
+    } else {p1StartTime=Date.now();localStorage.setItem("p1_start",String(p1StartTime))}
+    sessionLevel="p1";unlockApp();return
   }
-
-  showLockErr(inp, msg, "密碼錯誤，請重新輸入");
+  showLockErr(inp,msg,"密碼錯誤，請重新輸入");
 }
-
-function showLockErr(inp, msg, text) {
-  msg.className = "lock-msg err";
-  msg.textContent = text;
-  inp.classList.add("error");
-  setTimeout(() => inp.classList.remove("error"), 400);
+function showLockErr(inp,msg,text){
+  msg.className="lock-msg err";msg.textContent=text;
+  inp.classList.add("error");setTimeout(()=>inp.classList.remove("error"),400);
 }
-
-function toggleEye() {
-  const inp = document.getElementById("pw-input");
-  const btn = document.getElementById("eye-btn");
-  if (inp.type === "password") { inp.type = "text"; btn.textContent = "🙈"; }
-  else { inp.type = "password"; btn.textContent = "👁"; }
+function toggleEye(){
+  const inp=document.getElementById("pw-input"),btn=document.getElementById("eye-btn");
+  inp.type=inp.type==="password"?"text":"password";btn.textContent=inp.type==="password"?"👁":"🙈";
 }
-
-function unlockApp() {
-  document.getElementById("lock-screen").style.display = "none";
-  document.getElementById("main-app").style.display    = "block";
-
-  if (sessionLevel === "p1") {
-    const timerBar = document.getElementById("timer-bar");
-    timerBar.style.display = "flex";
-    startP1Timer();
+function unlockApp(){
+  document.getElementById("lock-screen").style.display="none";
+  document.getElementById("main-app").style.display="block";
+  if(sessionLevel==="p1"){
+    const tb=document.getElementById("timer-bar");
+    tb.style.display="flex";startP1Timer();
   }
-  // Start main app
   loadData();
 }
-
-function startP1Timer() {
-  function tick() {
-    const elapsed   = Date.now() - p1StartTime;
-    const remaining = P1_DURATION - elapsed;
-    if (remaining <= 0) {
-      // Burn P1 and force logout
-      localStorage.setItem("p1_burned", "1");
-      localStorage.removeItem("p1_start");
-      clearInterval(timerInterval);
-      forceLogout();
-      return;
-    }
-    const m = String(Math.floor(remaining / 60_000)).padStart(2,"0");
-    const s = String(Math.floor((remaining % 60_000) / 1000)).padStart(2,"0");
-    const el = document.getElementById("timer-val");
-    if (el) el.textContent = m + ":" + s;
+function startP1Timer(){
+  function tick(){
+    const rem=P1_MS-(Date.now()-p1StartTime);
+    if(rem<=0){localStorage.setItem("p1_burned","1");localStorage.removeItem("p1_start");clearInterval(timerInterval);forceLogout();return}
+    const m=String(Math.floor(rem/60000)).padStart(2,"0"),s=String(Math.floor(rem%60000/1000)).padStart(2,"0");
+    const el=document.getElementById("timer-val");if(el)el.textContent=m+":"+s;
   }
-  tick();
-  timerInterval = setInterval(tick, 1000);
+  tick();timerInterval=setInterval(tick,1000);
 }
-
-function forceLogout() {
-  document.getElementById("main-app").style.display = "none";
-  const ls = document.getElementById("lock-screen");
-  ls.style.display = "flex";
-  const msg = document.getElementById("lock-msg");
-  msg.className = "lock-msg err";
-  msg.textContent = "訪客時數已到期，請使用第二組密碼登入";
-  document.getElementById("pw-input").value = "";
+function forceLogout(){
+  document.getElementById("main-app").style.display="none";
+  document.getElementById("lock-screen").style.display="flex";
+  const msg=document.getElementById("lock-msg");
+  msg.className="lock-msg err";msg.textContent="訪客時數已到期，請使用第二組密碼";
+  document.getElementById("pw-input").value="";
 }
-
-// Check on load if P1 is already burned or expired
-(function initLock() {
-  const burned = localStorage.getItem("p1_burned");
-  const start  = localStorage.getItem("p1_start");
-  if (start && !burned) {
-    const elapsed = Date.now() - parseInt(start);
-    if (elapsed >= P1_DURATION) {
-      localStorage.setItem("p1_burned", "1");
-      localStorage.removeItem("p1_start");
-    }
+(function initLock(){
+  const st=localStorage.getItem("p1_start");
+  if(st&&!localStorage.getItem("p1_burned")&&Date.now()-parseInt(st)>=P1_MS){
+    localStorage.setItem("p1_burned","1");localStorage.removeItem("p1_start");
   }
 })();
 
-// ══════════════════════════════════════════════════════════════
-//  MAIN APP STATE
-// ══════════════════════════════════════════════════════════════
-let draws       = [];
-let tab         = "predict";
-let selectedPos = 0;   // 0=冠軍 … 9=第十名
-let dataInfo    = { updated:"", source:"" };
-let loadOk      = false;
-let loadErr     = false;
-let cdEl, cdInterval;
-let nextDrawEpoch = 0;
-let modelWeights  = { m1:0.25, m2:0.25, freq:0.25, cold:0.25 };
+// ════════════════════════════════════════════════
+// STATE
+// ════════════════════════════════════════════════
+let draws=[], tab="predict", selectedPos=0, selectedCount=7;
+let dataInfo={updated:"",source:""}, loadOk=false, loadErr=false;
+let cdEl, cdInterval, nextDrawEpoch=0;
+let modelWeights={m1:0.2,m2:0.2,freq:0.2,cold:0.2,bsoe:0.2};
 
-// ── Countdown ──────────────────────────────────────────────────
-function computeNextDrawEpoch(iso) {
-  if (!iso) return 0;
-  return Math.ceil(new Date(iso).getTime() / 300_000) * 300_000;
-}
-function getCountdownSec() {
-  if (!nextDrawEpoch) return 0;
-  let d = Math.round((nextDrawEpoch - Date.now()) / 1000);
-  if (d < 0) { nextDrawEpoch += 300_000; return 300; }
-  return d;
-}
-function fmtCD(s) {
-  return String(Math.floor(s/60)).padStart(2,"0") + ":" + String(s%60).padStart(2,"0");
-}
-function startCountdown() {
-  if (cdInterval) clearInterval(cdInterval);
-  cdInterval = setInterval(() => {
-    if (!cdEl) return;
-    const s = getCountdownSec();
-    cdEl.textContent = fmtCD(s);
-    cdEl.className   = "header-cd" + (s <= 30 ? " urgent" : "");
-  }, 500);
+// ════════════════════════════════════════════════
+// COUNTDOWN
+// ════════════════════════════════════════════════
+function computeEpoch(iso){if(!iso)return 0;return Math.ceil(new Date(iso).getTime()/300000)*300000}
+function getCdSec(){if(!nextDrawEpoch)return 0;let d=Math.round((nextDrawEpoch-Date.now())/1000);if(d<0){nextDrawEpoch+=300000;return 300}return d}
+function fmtCD(s){return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0")}
+function startCD(){
+  if(cdInterval)clearInterval(cdInterval);
+  cdInterval=setInterval(()=>{if(!cdEl)return;const s=getCdSec();cdEl.textContent=fmtCD(s);cdEl.className="header-cd"+(s<=30?" urgent":"")},500);
 }
 
-// ── Models ─────────────────────────────────────────────────────
-function normalize(sc) {
-  const sum = Object.values(sc).reduce((a,b)=>a+b,0);
-  if (!sum) return uniform();
-  const o={}; for(let n=1;n<=10;n++) o[n]=sc[n]/sum; return o;
-}
-function uniform() { const o={}; for(let n=1;n<=10;n++) o[n]=0.1; return o; }
-function top7From(sc) {
-  return [1,2,3,4,5,6,7,8,9,10].sort((a,b)=>sc[b]-sc[a]).slice(0,7);
-}
-function getN(draw, pos) { return draw.numbers[pos]; }
+// ════════════════════════════════════════════════
+// MODELS
+// ════════════════════════════════════════════════
+function normalize(sc){const sum=Object.values(sc).reduce((a,b)=>a+b,0);if(!sum)return uniform();const o={};for(let n=1;n<=10;n++)o[n]=sc[n]/sum;return o}
+function uniform(){const o={};for(let n=1;n<=10;n++)o[n]=0.1;return o}
+function topN(sc,n){return[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>sc[b]-sc[a]).slice(0,n)}
+function getN(d,p){return d.numbers[p]}
 
-function markov1Score(dl, pos) {
-  if (dl.length < 3) return uniform();
-  const tr={};
-  for(let i=1;i<=10;i++){tr[i]={};for(let j=1;j<=10;j++)tr[i][j]=0.5;}
-  for(let i=0;i<dl.length-1;i++) tr[getN(dl[i+1],pos)][getN(dl[i],pos)]++;
+function markov1(dl,pos){
+  if(dl.length<3)return uniform();
+  const tr={};for(let i=1;i<=10;i++){tr[i]={};for(let j=1;j<=10;j++)tr[i][j]=0.5}
+  for(let i=0;i<dl.length-1;i++)tr[getN(dl[i+1],pos)][getN(dl[i],pos)]++;
   return normalize(tr[getN(dl[0],pos)]);
 }
-function markov2Score(dl, pos) {
-  if (dl.length < 4) return markov1Score(dl, pos);
+function markov2(dl,pos){
+  if(dl.length<4)return markov1(dl,pos);
   const tr={};
   for(let i=0;i<dl.length-2;i++){
     const k=`${getN(dl[i+2],pos)},${getN(dl[i+1],pos)}`;
-    if(!tr[k]){tr[k]={};for(let n=1;n<=10;n++)tr[k][n]=0.3;}
+    if(!tr[k]){tr[k]={};for(let n=1;n<=10;n++)tr[k][n]=0.3}
     tr[k][getN(dl[i],pos)]++;
   }
   const k=`${getN(dl[1],pos)},${getN(dl[0],pos)}`;
-  return tr[k] ? normalize(tr[k]) : markov1Score(dl, pos);
+  return tr[k]?normalize(tr[k]):markov1(dl,pos);
 }
-function freqScore(dl, pos, win=25) {
+function freqModel(dl,pos,win=25){
   const rc=dl.slice(0,Math.min(win,dl.length));
-  const f={}; for(let n=1;n<=10;n++) f[n]=0.1;
-  rc.forEach(d=>f[getN(d,pos)]++);
-  return normalize(f);
+  const f={};for(let n=1;n<=10;n++)f[n]=0.1;
+  rc.forEach(d=>f[getN(d,pos)]++);return normalize(f);
 }
-function coldScore(dl, pos) {
-  if (dl.length < 2) return uniform();
-  const ls={}; for(let n=1;n<=10;n++) ls[n]=9999;
-  dl.forEach((d,i)=>{ if(ls[getN(d,pos)]===9999) ls[getN(d,pos)]=i; });
+function coldModel(dl,pos){
+  if(dl.length<2)return uniform();
+  const ls={};for(let n=1;n<=10;n++)ls[n]=9999;
+  dl.forEach((d,i)=>{if(ls[getN(d,pos)]===9999)ls[getN(d,pos)]=i});
   const mx=Math.max(...Object.values(ls).map(v=>v===9999?dl.length+5:v),1);
-  const sc={};
-  for(let n=1;n<=10;n++){const v=ls[n]===9999?dl.length+5:ls[n]; sc[n]=(v+1)/(mx+2);}
+  const sc={};for(let n=1;n<=10;n++){const v=ls[n]===9999?dl.length+5:ls[n];sc[n]=(v+1)/(mx+2)}
   return normalize(sc);
 }
 
-function trainWeights(dl, pos) {
-  modelWeights = { m1:0.25, m2:0.25, freq:0.25, cold:0.25 };
-  const alpha  = 0.12;
-  const hit    = (sc, actual) => top7From(sc).includes(actual) ? 1 : 0;
-  const lim    = Math.min(dl.length-1, 40);
-  for (let i = lim; i >= 1; i--) {
-    const hist   = dl.slice(i);
-    const actual = getN(dl[i-1], pos);
-    modelWeights.m1   = (1-alpha)*modelWeights.m1   + alpha*hit(markov1Score(hist,pos), actual);
-    modelWeights.m2   = (1-alpha)*modelWeights.m2   + alpha*hit(markov2Score(hist,pos), actual);
-    modelWeights.freq = (1-alpha)*modelWeights.freq + alpha*hit(freqScore(hist,pos),    actual);
-    modelWeights.cold = (1-alpha)*modelWeights.cold + alpha*hit(coldScore(hist,pos),    actual);
-    const sum = modelWeights.m1+modelWeights.m2+modelWeights.freq+modelWeights.cold;
-    if(sum>0){modelWeights.m1/=sum;modelWeights.m2/=sum;modelWeights.freq/=sum;modelWeights.cold/=sum;}
+// ── Big/Small + Odd/Even model ──────────────────
+// Assigns higher probability to numbers consistent with predicted BS/OE tendency
+function bsoeModel(dl, pos) {
+  if (dl.length < 5) return uniform();
+
+  // Count historical big/small/odd/even frequency
+  let bigCnt=0, smCnt=0, oddCnt=0, eveCnt=0;
+  const win = Math.min(dl.length, 30);
+  dl.slice(0, win).forEach(d => {
+    const n = getN(d, pos);
+    if (n >= 6) bigCnt++; else smCnt++;
+    if (n % 2 === 1) oddCnt++; else eveCnt++;
+  });
+
+  // Markov on big/small transitions
+  let bb=1,bs=1,sb=1,ss=1;
+  for(let i=0;i<dl.length-1;i++){
+    const prev = getN(dl[i+1],pos)>=6?"B":"S";
+    const curr = getN(dl[i],pos)>=6?"B":"S";
+    if(prev==="B"&&curr==="B")bb++;
+    else if(prev==="B"&&curr==="S")bs++;
+    else if(prev==="S"&&curr==="B")sb++;
+    else ss++;
   }
+  const lastIsBig = getN(dl[0],pos)>=6;
+  const pBig = lastIsBig ? bb/(bb+bs) : sb/(sb+ss);
+  const pSml = 1-pBig;
+
+  // Markov on odd/even transitions
+  let oo=1,oe=1,eo=1,ee=1;
+  for(let i=0;i<dl.length-1;i++){
+    const prev=getN(dl[i+1],pos)%2===1?"O":"E";
+    const curr=getN(dl[i],pos)%2===1?"O":"E";
+    if(prev==="O"&&curr==="O")oo++;
+    else if(prev==="O"&&curr==="E")oe++;
+    else if(prev==="E"&&curr==="O")eo++;
+    else ee++;
+  }
+  const lastIsOdd = getN(dl[0],pos)%2===1;
+  const pOdd = lastIsOdd ? oo/(oo+oe) : eo/(eo+ee);
+  const pEve = 1-pOdd;
+
+  // Assign score to each number based on BS×OE probability
+  const sc={};
+  for(let n=1;n<=10;n++){
+    const isBig=n>=6, isOdd=n%2===1;
+    sc[n]=(isBig?pBig:pSml)*(isOdd?pOdd:pEve);
+  }
+  return normalize(sc);
 }
 
-function combinedPredict(dl, pos) {
-  if (dl.length < 4) {
-    const ls={}; for(let n=1;n<=10;n++) ls[n]=9999;
-    dl.forEach((d,i)=>{ if(ls[getN(d,pos)]===9999) ls[getN(d,pos)]=i; });
-    const ranked=[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>ls[b]-ls[a]);
-    return { pick:ranked.slice(0,7).sort((a,b)=>a-b), exclude:ranked.slice(7).sort((a,b)=>a-b), scores:uniform(), repeatProb:0.1, current:getN(dl[0],pos) };
+// Compute BS/OE tendency percentages for display
+function getBSOETendency(dl, pos) {
+  if (dl.length < 3) return { pBig:50,pSml:50,pOdd:50,pEve:50 };
+
+  // Markov BS
+  let bb=1,bs=1,sb=1,ss=1;
+  for(let i=0;i<dl.length-1;i++){
+    const prev=getN(dl[i+1],pos)>=6?"B":"S";
+    const curr=getN(dl[i],pos)>=6?"B":"S";
+    if(prev==="B"&&curr==="B")bb++;else if(prev==="B"&&curr==="S")bs++;
+    else if(prev==="S"&&curr==="B")sb++;else ss++;
   }
-  const s1=markov1Score(dl,pos), s2=markov2Score(dl,pos);
-  const sf=freqScore(dl,pos),   sc=coldScore(dl,pos);
-  const {m1,m2,freq,cold}=modelWeights;
-  const cm={};
-  for(let n=1;n<=10;n++) cm[n]=m1*s1[n]+m2*s2[n]+freq*sf[n]+cold*sc[n];
-  const nm=normalize(cm);
-  const ranked=[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>nm[b]-nm[a]);
-  const current=getN(dl[0],pos);
+  const lastIsBig=getN(dl[0],pos)>=6;
+  const pBig=lastIsBig?bb/(bb+bs):sb/(sb+ss);
+
+  // Markov OE
+  let oo=1,oe=1,eo=1,ee=1;
+  for(let i=0;i<dl.length-1;i++){
+    const prev=getN(dl[i+1],pos)%2===1?"O":"E";
+    const curr=getN(dl[i],pos)%2===1?"O":"E";
+    if(prev==="O"&&curr==="O")oo++;else if(prev==="O"&&curr==="E")oe++;
+    else if(prev==="E"&&curr==="O")eo++;else ee++;
+  }
+  const lastIsOdd=getN(dl[0],pos)%2===1;
+  const pOdd=lastIsOdd?oo/(oo+oe):eo/(eo+ee);
+
   return {
-    pick:ranked.slice(0,7).sort((a,b)=>a-b),
-    exclude:ranked.slice(7).sort((a,b)=>a-b),
-    scores:nm, repeatProb:s1[current]||0, current
+    pBig:Math.round(pBig*100), pSml:Math.round((1-pBig)*100),
+    pOdd:Math.round(pOdd*100), pEve:Math.round((1-pOdd)*100)
   };
 }
 
-function buildHistory(dl, pos) {
+// ── Adaptive weights ────────────────────────────
+function trainWeights(dl,pos,cnt){
+  modelWeights={m1:0.2,m2:0.2,freq:0.2,cold:0.2,bsoe:0.2};
+  const alpha=0.12;
+  const hit=(sc,actual)=>topN(sc,cnt).includes(actual)?1:0;
+  const lim=Math.min(dl.length-1,40);
+  for(let i=lim;i>=1;i--){
+    const hist=dl.slice(i), actual=getN(dl[i-1],pos);
+    const h1=hit(markov1(hist,pos),actual), h2=hit(markov2(hist,pos),actual);
+    const hf=hit(freqModel(hist,pos),actual), hc=hit(coldModel(hist,pos),actual);
+    const hb=hit(bsoeModel(hist,pos),actual);
+    modelWeights.m1  =(1-alpha)*modelWeights.m1  +alpha*h1;
+    modelWeights.m2  =(1-alpha)*modelWeights.m2  +alpha*h2;
+    modelWeights.freq=(1-alpha)*modelWeights.freq+alpha*hf;
+    modelWeights.cold=(1-alpha)*modelWeights.cold+alpha*hc;
+    modelWeights.bsoe=(1-alpha)*modelWeights.bsoe+alpha*hb;
+    const sum=modelWeights.m1+modelWeights.m2+modelWeights.freq+modelWeights.cold+modelWeights.bsoe;
+    if(sum>0){modelWeights.m1/=sum;modelWeights.m2/=sum;modelWeights.freq/=sum;modelWeights.cold/=sum;modelWeights.bsoe/=sum;}
+  }
+}
+
+function combinedPredict(dl,pos,cnt){
+  if(dl.length<4){
+    const ls={};for(let n=1;n<=10;n++)ls[n]=9999;
+    dl.forEach((d,i)=>{if(ls[getN(d,pos)]===9999)ls[getN(d,pos)]=i});
+    const ranked=[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>ls[b]-ls[a]);
+    return{pick:ranked.slice(0,cnt).sort((a,b)=>a-b),exclude:ranked.slice(cnt).sort((a,b)=>a-b),scores:uniform(),repeatProb:0.1,current:getN(dl[0],pos)};
+  }
+  const s1=markov1(dl,pos),s2=markov2(dl,pos);
+  const sf=freqModel(dl,pos),sc=coldModel(dl,pos),sb=bsoeModel(dl,pos);
+  const {m1,m2,freq,cold,bsoe}=modelWeights;
+  const cm={};for(let n=1;n<=10;n++)cm[n]=m1*s1[n]+m2*s2[n]+freq*sf[n]+cold*sc[n]+bsoe*sb[n];
+  const nm=normalize(cm);
+  const ranked=[1,2,3,4,5,6,7,8,9,10].sort((a,b)=>nm[b]-nm[a]);
+  const current=getN(dl[0],pos);
+  return{
+    pick:ranked.slice(0,cnt).sort((a,b)=>a-b),
+    exclude:ranked.slice(cnt).sort((a,b)=>a-b),
+    scores:nm,repeatProb:s1[current]||0,current
+  };
+}
+
+function buildHistory(dl,pos,cnt){
   const rows=[];
   for(let i=1;i<Math.min(dl.length-1,16);i++){
-    const hist=dl.slice(i+1);
-    const res=combinedPredict(hist,pos);
+    const hist=dl.slice(i+1),res=combinedPredict(hist,pos,cnt);
     const actual=getN(dl[i],pos);
     const dn=dl[i].draw_full?String(+dl[i].draw_full).slice(-4):dl[i].draw;
     rows.push({draw:dn,pick:res.pick,actual,hit:res.pick.includes(actual)});
@@ -525,153 +459,169 @@ function buildHistory(dl, pos) {
   return rows;
 }
 
-// ── Fetch ──────────────────────────────────────────────────────
-async function loadData(silent=false) {
-  if (!silent) render();
-  try {
-    const r = await fetch(WORKER_URL);
-    if (!r.ok) throw new Error("HTTP "+r.status);
-    const json = await r.json();
-    if (!json.draws || json.draws.length < 3) throw new Error("No data");
-    draws    = json.draws;
-    dataInfo = { updated:json.updated, source:json.source };
-    draws.forEach(d=>{
-      if(d.draw_full && d.draw_full.length>4) d.draw=String(+d.draw_full).slice(-4);
-    });
-    nextDrawEpoch = computeNextDrawEpoch(json.updated);
-    loadOk=true; loadErr=false;
-    trainWeights(draws, selectedPos);
-  } catch(e) {
-    if (!draws.length) loadErr=true;
-  }
+// ════════════════════════════════════════════════
+// FETCH
+// ════════════════════════════════════════════════
+async function loadData(silent=false){
+  if(!silent)render();
+  try{
+    const r=await fetch(WORKER_URL);if(!r.ok)throw new Error("HTTP "+r.status);
+    const json=await r.json();if(!json.draws||json.draws.length<3)throw new Error("No data");
+    draws=json.draws;dataInfo={updated:json.updated,source:json.source};
+    draws.forEach(d=>{if(d.draw_full&&d.draw_full.length>4)d.draw=String(+d.draw_full).slice(-4)});
+    nextDrawEpoch=computeEpoch(json.updated);loadOk=true;loadErr=false;
+    trainWeights(draws,selectedPos,selectedCount);
+  }catch(e){if(!draws.length)loadErr=true}
   render();
 }
 
-// ── DOM helpers ────────────────────────────────────────────────
-function el(tag, cls, inner) {
-  const e=document.createElement(tag);
-  if(cls)   e.className=cls;
-  if(inner) e.innerHTML=inner;
-  return e;
-}
-function ballSm(n) {
-  const d=el("div","ball-sm"); d.style.background=COLORS[n]; d.textContent=n; return d;
-}
-function ballLg(n) {
-  const d=el("div","ball-lg");
-  d.style.background=COLORS[n];
-  d.style.boxShadow=`0 4px 14px ${COLORS[n]}66,inset 0 2px 4px rgba(255,255,255,.25)`;
-  d.textContent=n; return d;
+// ════════════════════════════════════════════════
+// DOM HELPERS
+// ════════════════════════════════════════════════
+function el(tag,cls,inner){const e=document.createElement(tag);if(cls)e.className=cls;if(inner)e.innerHTML=inner;return e}
+function ballSm(n){const d=el("div","ball-sm");d.style.background=COLORS[n];d.textContent=n;return d}
+function ballLg(n){const d=el("div","ball-lg");d.style.background=COLORS[n];d.style.boxShadow=`0 4px 14px ${COLORS[n]}66,inset 0 2px 4px rgba(255,255,255,.25)`;d.textContent=n;return d}
+function mkSelect(opts,val,cb){
+  const s=document.createElement("select");s.className="sel-select";
+  opts.forEach(o=>{const e=document.createElement("option");e.value=o.v;e.textContent=o.l;if(o.v==val)e.selected=true;s.appendChild(e)});
+  s.onchange=()=>cb(s.value);return s;
 }
 
-// ── Render ─────────────────────────────────────────────────────
-function render() {
-  const app=document.getElementById("app");
-  app.innerHTML="";
+// ════════════════════════════════════════════════
+// RENDER
+// ════════════════════════════════════════════════
+function render(){
+  const app=document.getElementById("app");app.innerHTML="";
+  if(!draws.length&&!loadErr){app.innerHTML=`<div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div>`;return}
+  if(loadErr){app.innerHTML=`<div class="loading" style="margin-top:80px"><div style="font-size:32px;margin-bottom:12px">⚠️</div><div style="color:#ff4d4d">無法取得即時資料</div><div style="font-size:12px;color:#666;margin-top:8px">請確認 Cloudflare Worker 運作中</div><button class="refresh-btn" style="margin-top:16px;font-size:13px;padding:8px 20px;border-radius:10px;color:#4d8aff;border-color:#4d8aff" onclick="loadData()">重試</button></div>`;return}
 
-  if (!draws.length && !loadErr) {
-    app.innerHTML=`<div class="loading" style="margin-top:80px"><div class="spinner"></div>載入中...</div>`; return;
-  }
-  if (loadErr) {
-    app.innerHTML=`<div class="loading" style="margin-top:80px">
-      <div style="font-size:32px;margin-bottom:12px">⚠️</div>
-      <div style="color:#ff4d4d">無法取得即時資料</div>
-      <div style="font-size:12px;color:#666;margin-top:8px">請確認 Cloudflare Worker 運作中</div>
-      <button class="refresh-btn" style="margin-top:16px;font-size:13px;padding:8px 20px;border-radius:10px;color:#4d8aff;border-color:#4d8aff" onclick="loadData()">重試</button>
-    </div>`; return;
-  }
-
-  const latest     = draws[0];
-  const periodNum  = latest.draw_full ? String(+latest.draw_full).slice(-4) : latest.draw;
-  const nextPeriod = String(+periodNum+1);
-  const pred       = combinedPredict(draws, selectedPos);
-  const history    = buildHistory(draws, selectedPos);
-  const hits       = history.filter(r=>r.hit).length;
-  const acc        = history.length ? Math.round(hits/history.length*100) : 0;
-  let streak=0; for(const r of history){if(r.hit)streak++;else break;}
+  const latest=draws[0];
+  const periodNum=latest.draw_full?String(+latest.draw_full).slice(-4):latest.draw;
+  const nextPeriod=String(+periodNum+1);
+  const pred=combinedPredict(draws,selectedPos,selectedCount);
+  const history=buildHistory(draws,selectedPos,selectedCount);
+  const hits=history.filter(r=>r.hit).length;
+  const acc=history.length?Math.round(hits/history.length*100):0;
+  let streak=0;for(const r of history){if(r.hit)streak++;else break}
+  const bsoe=getBSOETendency(draws,selectedPos);
 
   // ── Header ──
-  const header=el("div","header");
+  const hdr=el("div","header");
   const htop=el("div","header-top");
-  const hleft=el("div");
-  hleft.innerHTML=`<div class="header-label">澳洲幸運10 · ${POS_NAMES[selectedPos]}預測</div><div class="header-draw">第 ${periodNum} 期</div>`;
-  const hright=el("div","header-right");
-  const cdSec=getCountdownSec();
-  hright.innerHTML=`<div class="header-cd-label">下期倒計時</div>
-    <div class="header-cd${cdSec<=30?" urgent":""}" id="cd">${fmtCD(cdSec)}</div>`;
-  htop.append(hleft,hright);
-  const brow=el("div","balls-row");
-  latest.numbers.forEach(n=>brow.appendChild(ballSm(n)));
-  header.append(htop,brow);
-  app.appendChild(header);
+  const hl=el("div");
+  hl.innerHTML=`<div class="header-label">澳洲幸運10 · ${POS_NAMES[selectedPos]}預測</div><div class="header-draw">第 ${periodNum} 期</div>`;
+  const hr2=el("div","header-right");
+  const cdS=getCdSec();
+  hr2.innerHTML=`<div class="header-cd-label">下期倒計時</div><div class="header-cd${cdS<=30?" urgent":""}" id="cd">${fmtCD(cdS)}</div>`;
+  htop.append(hl,hr2);
+  const brow=el("div","balls-row");latest.numbers.forEach(n=>brow.appendChild(ballSm(n)));
+  hdr.append(htop,brow);app.appendChild(hdr);
 
-  // ── Status bar ──
-  const updTime=dataInfo.updated
-    ?new Date(dataInfo.updated).toLocaleString("zh-TW",{hour12:false,timeZone:"Asia/Taipei"}):"未知";
+  // ── Status ──
+  const updTime=dataInfo.updated?new Date(dataInfo.updated).toLocaleString("zh-TW",{hour12:false,timeZone:"Asia/Taipei"}):"未知";
   const sbar=el("div",`status-bar ${loadOk?"ok":"warn"}`);
-  sbar.innerHTML=`<span>${loadOk?`✓ 最後更新：${updTime}`:`⚠ 示例資料`}</span>
-    <button class="refresh-btn" id="refresh-btn" onclick="manualRefresh()">↻ 重整</button>`;
+  sbar.innerHTML=`<span>${loadOk?`✓ 最後更新：${updTime}`:`⚠ 示例資料`}</span><button class="refresh-btn" id="refresh-btn" onclick="manualRefresh()">↻ 重整</button>`;
   app.appendChild(sbar);
 
   // ── Position selector ──
-  const posBar=el("div","pos-bar");
-  const posLabel=el("div","pos-label"); posLabel.textContent="預測名次：";
-  const sel=document.createElement("select");
-  sel.className="pos-select";
-  POS_NAMES.forEach((name,i)=>{
-    const opt=document.createElement("option");
-    opt.value=i; opt.textContent=name;
-    if(i===selectedPos) opt.selected=true;
-    sel.appendChild(opt);
+  const pb=el("div","sel-bar");
+  const pl=el("div","sel-label");pl.textContent="預測名次：";
+  const ps=mkSelect(POS_NAMES.map((n,i)=>({v:i,l:n})),selectedPos,v=>{
+    selectedPos=parseInt(v);trainWeights(draws,selectedPos,selectedCount);render();
   });
-  sel.onchange=()=>{
-    selectedPos=parseInt(sel.value);
-    trainWeights(draws, selectedPos);
-    render();
-  };
-  posBar.append(posLabel,sel);
-  app.appendChild(posBar);
+  pb.append(pl,ps);app.appendChild(pb);
+
+  // ── Count selector ──
+  const cb=el("div","sel-bar");cb.style.borderTop="none";
+  const cl=el("div","sel-label");cl.textContent="推薦數量：";
+  const cs=mkSelect([{v:7,l:"7 個號碼（較寬鬆）"},{v:5,l:"5 個號碼（較精準）"}],selectedCount,v=>{
+    selectedCount=parseInt(v);trainWeights(draws,selectedPos,selectedCount);render();
+  });
+  cb.append(cl,cs);app.appendChild(cb);
 
   // ── Tabs ──
   const tabs=el("div","tabs");
   [["predict","📊 預測"],["history","📋 歷史驗證"]].forEach(([k,l])=>{
-    const t=el("div",`tab${tab===k?" active":""}`);
-    t.textContent=l; t.onclick=()=>{tab=k;render();}; tabs.appendChild(t);
+    const t=el("div",`tab${tab===k?" active":""}`);t.textContent=l;t.onclick=()=>{tab=k;render()};tabs.appendChild(t);
   });
   app.appendChild(tabs);
 
-  if (tab==="predict") {
+  if(tab==="predict"){
 
-    // Prediction card
+    // Main prediction card
     const card=el("div","card");
     const ch=el("div","card-head");
-    const cl=el("div");
-    cl.innerHTML=`<div class="card-title">下期${POS_NAMES[selectedPos]}推薦</div><div class="card-draw">第 ${nextPeriod} 期</div>`;
-    const cb=el("div","acc-badge");
-    cb.innerHTML=`<div class="acc-val">${acc}%</div><div class="acc-label">歷史命中率</div>`;
-    ch.append(cl,cb); card.appendChild(ch);
+    const chl=el("div");
+    chl.innerHTML=`<div class="card-title">下期${POS_NAMES[selectedPos]}推薦</div><div class="card-draw">第 ${nextPeriod} 期</div>`;
+    const chb=el("div","acc-badge");chb.innerHTML=`<div class="acc-val">${acc}%</div><div class="acc-label">歷史命中率</div>`;
+    ch.append(chl,chb);card.appendChild(ch);
 
-    const sl1=el("div","section-label");
-    sl1.innerHTML=`✅ 推薦號碼 <span>（7碼・綜合模型最高機率）</span>`;
-    card.appendChild(sl1);
-    const bb=el("div","big-balls");
-    pred.pick.forEach(n=>bb.appendChild(ballLg(n)));
-    card.appendChild(bb);
+    const sl1=el("div","section-label");sl1.innerHTML=`✅ 推薦號碼 <span>（${selectedCount}碼・五模型綜合最高機率）</span>`;card.appendChild(sl1);
+    const bb=el("div","big-balls");pred.pick.forEach(n=>bb.appendChild(ballLg(n)));card.appendChild(bb);
     card.appendChild(el("div","divider"));
 
-    const sl2=el("div","section-label");
-    sl2.innerHTML=`➖ 排除號碼 <span>（綜合機率最低3碼）</span>`;
-    card.appendChild(sl2);
-    const sb=el("div","small-balls");
+    const sl2=el("div","section-label");sl2.innerHTML=`➖ 排除號碼 <span>（綜合機率最低${10-selectedCount}碼）</span>`;card.appendChild(sl2);
+    const sb2=el("div","small-balls");
     pred.exclude.forEach(n=>{
-      const wrap=el("div","ball-md");
-      const circ=el("div","ball-md-circle");
-      circ.style.cssText="background:#2a2d3e;color:#555"; circ.textContent=n;
-      const sub=el("div","ball-md-sub");
-      sub.textContent=`${(pred.scores[n]*100).toFixed(1)}%`;
-      wrap.append(circ,sub); sb.appendChild(wrap);
+      const w=el("div","ball-md");
+      const c=el("div","ball-md-circle");c.style.cssText="background:#2a2d3e;color:#555";c.textContent=n;
+      const s=el("div","ball-md-sub");s.textContent=`${(pred.scores[n]*100).toFixed(1)}%`;
+      w.append(c,s);sb2.appendChild(w);
     });
-    card.appendChild(sb);
+    card.appendChild(sb2);
+
+    // ── Big/Small + Odd/Even panel (only show for 5-number mode) ──
+    if(selectedCount===5){
+      card.appendChild(el("div","divider"));
+      const bsTitle=el("div","section-label");
+      bsTitle.innerHTML=`🔮 大小單雙預測 <span>（馬可夫轉移機率）</span>`;
+      card.appendChild(bsTitle);
+
+      const grid=el("div","bsoe-grid");
+
+      // Big/Small card
+      const bsc=el("div","bsoe-card");
+      const bigPct=bsoe.pBig, smlPct=bsoe.pSml;
+      const bsWin=bigPct>=smlPct?"大":"小";
+      const bsColor=bsWin==="大"?"#ff4d4d":"#4d8aff";
+      bsc.innerHTML=`
+        <div class="bsoe-row"><span class="bsoe-title">大（6-10）</span></div>
+        <div class="bsoe-row">
+          <div class="bsoe-bar-wrap"><div class="bsoe-bar" style="width:${bigPct}%;background:#ff4d4d"></div></div>
+          <span class="bsoe-pct" style="color:#ff4d4d">${bigPct}%</span>
+        </div>
+        <div class="bsoe-row"><span class="bsoe-title">小（1-5）</span></div>
+        <div class="bsoe-row">
+          <div class="bsoe-bar-wrap"><div class="bsoe-bar" style="width:${smlPct}%;background:#4d8aff"></div></div>
+          <span class="bsoe-pct" style="color:#4d8aff">${smlPct}%</span>
+        </div>
+        <div class="bsoe-recommend" style="background:${bsColor}22;color:${bsColor};border:1px solid ${bsColor}44">
+          推薦：${bsWin}
+        </div>`;
+      grid.appendChild(bsc);
+
+      // Odd/Even card
+      const oec=el("div","bsoe-card");
+      const oddPct=bsoe.pOdd, evePct=bsoe.pEve;
+      const oeWin=oddPct>=evePct?"單":"雙";
+      const oeColor=oeWin==="單"?"#ffd166":"#3ecf6f";
+      oec.innerHTML=`
+        <div class="bsoe-row"><span class="bsoe-title">單（1,3,5,7,9）</span></div>
+        <div class="bsoe-row">
+          <div class="bsoe-bar-wrap"><div class="bsoe-bar" style="width:${oddPct}%;background:#ffd166"></div></div>
+          <span class="bsoe-pct" style="color:#ffd166">${oddPct}%</span>
+        </div>
+        <div class="bsoe-row"><span class="bsoe-title">雙（2,4,6,8,10）</span></div>
+        <div class="bsoe-row">
+          <div class="bsoe-bar-wrap"><div class="bsoe-bar" style="width:${evePct}%;background:#3ecf6f"></div></div>
+          <span class="bsoe-pct" style="color:#3ecf6f">${evePct}%</span>
+        </div>
+        <div class="bsoe-recommend" style="background:${oeColor}22;color:${oeColor};border:1px solid ${oeColor}44">
+          推薦：${oeWin}
+        </div>`;
+      grid.appendChild(oec);
+      card.appendChild(grid);
+    }
 
     // Repeat box
     const repPct=Math.round(pred.repeatProb*100);
@@ -686,85 +636,64 @@ function render() {
     // Chart card
     const cc=el("div","card");
     cc.innerHTML=`<div style="font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px">綜合機率分佈</div>
-      <div style="font-size:11px;color:var(--text2);margin-bottom:12px">各號碼下期成為${POS_NAMES[selectedPos]}的綜合機率（越高越優先推薦）</div>`;
+      <div style="font-size:11px;color:var(--text2);margin-bottom:12px">各號碼下期成為${POS_NAMES[selectedPos]}的機率（越高越優先）</div>`;
     const cw=el("div","chart-wrap");
     const mx=Math.max(...[1,2,3,4,5,6,7,8,9,10].map(n=>pred.scores[n]));
     for(let n=1;n<=10;n++){
-      const inPick=pred.pick.includes(n);
-      const barH=Math.max(Math.round(pred.scores[n]/mx*58),4);
+      const inP=pred.pick.includes(n),bH=Math.max(Math.round(pred.scores[n]/mx*58),4);
       const col=el("div","chart-col");
-      const numEl=el("div","chart-num"); numEl.style.color=inPick?"#4d8aff":"#444";
-      numEl.textContent=(pred.scores[n]*100).toFixed(1)+"%";
-      const bar=el("div","chart-bar");
-      bar.style.height=barH+"px"; bar.style.background=inPick?COLORS[n]:"#2a2d3e";
-      const ball=el("div","chart-ball");
-      ball.style.cssText=`background:${inPick?COLORS[n]:"#2a2d3e"};color:${inPick?"#fff":"#444"}`;
-      ball.textContent=n;
-      col.append(numEl,bar,ball); cw.appendChild(col);
+      const nm=el("div","chart-num");nm.style.color=inP?"#4d8aff":"#444";nm.textContent=(pred.scores[n]*100).toFixed(1)+"%";
+      const bar=el("div","chart-bar");bar.style.height=bH+"px";bar.style.background=inP?COLORS[n]:"#2a2d3e";
+      const ball=el("div","chart-ball");ball.style.cssText=`background:${inP?COLORS[n]:"#2a2d3e"};color:${inP?"#fff":"#444"}`;ball.textContent=n;
+      col.append(nm,bar,ball);cw.appendChild(col);
     }
     cc.appendChild(cw);
     const leg=el("div","chart-legend");
     leg.innerHTML=`<div class="legend-dot"><div class="dot" style="background:#4d8aff"></div>推薦（高機率）</div>
       <div class="legend-dot"><div class="dot" style="background:#2a2d3e;border:1px solid #444"></div>排除（低機率）</div>`;
-    cc.appendChild(leg);
-    app.appendChild(cc);
+    cc.appendChild(leg);app.appendChild(cc);
 
     // Stats
     const sr=el("div","stats-row");
-    [{v:acc+"%",l:"歷史命中率",c:acc>=70?"#3ecf6f":"#ff4d4d"},
-     {v:streak+"期",l:"當前連中",c:"#4d8aff"},
-     {v:history.length+"期",l:"已驗證",c:"#8b91a8"}].forEach(s=>{
-      const sc=el("div","stat-card");
-      sc.innerHTML=`<div class="stat-val" style="color:${s.c}">${s.v}</div><div class="stat-label">${s.l}</div>`;
-      sr.appendChild(sc);
+    [{v:acc+"%",l:"歷史命中率",c:acc>=70?"#3ecf6f":"#ff4d4d"},{v:streak+"期",l:"當前連中",c:"#4d8aff"},{v:history.length+"期",l:"已驗證",c:"#8b91a8"}].forEach(s=>{
+      const sc=el("div","stat-card");sc.innerHTML=`<div class="stat-val" style="color:${s.c}">${s.v}</div><div class="stat-label">${s.l}</div>`;sr.appendChild(sc);
     });
     app.appendChild(sr);
 
   } else {
-
     const tw=el("div","table-wrap");
-    const th=el("div","table-head");
-    th.innerHTML=`<span>期號</span><span>推薦7碼（${POS_NAMES[selectedPos]}加框）</span><span>結果</span>`;
-    tw.appendChild(th);
+    const th=el("div","table-head");th.innerHTML=`<span>期號</span><span>推薦${selectedCount}碼（${POS_NAMES[selectedPos]}加框）</span><span>結果</span>`;tw.appendChild(th);
     history.forEach(row=>{
       const tr=el("div","table-row");
-      const td1=el("div"); td1.innerHTML=`<div class="row-draw">${row.draw}</div>`;
+      const td1=el("div");td1.innerHTML=`<div class="row-draw">${row.draw}</div>`;
       const td2=el("div","row-balls");
       row.pick.forEach(n=>{
-        const b=el("div","hist-ball");
-        const isA=n===row.actual;
+        const b=el("div","hist-ball"),isA=n===row.actual;
         b.style.cssText=`background:${isA?COLORS[n]:"#2a2d3e"};color:${isA?"#fff":"#444"};font-weight:800`;
-        if(isA) b.style.boxShadow=`0 0 0 2px ${COLORS[n]},0 2px 6px ${COLORS[n]}88`;
-        b.textContent=n; td2.appendChild(b);
+        if(isA)b.style.boxShadow=`0 0 0 2px ${COLORS[n]},0 2px 6px ${COLORS[n]}88`;
+        b.textContent=n;td2.appendChild(b);
       });
-      if(!row.hit){
-        const note=el("span","hist-miss-note");
-        note.textContent=`${POS_NAMES[selectedPos]}${row.actual}`; td2.appendChild(note);
-      }
-      const td3=el("div");
-      td3.innerHTML=row.hit?`<span class="badge-hit">中✓</span>`:`<span class="badge-miss">錯✗</span>`;
-      tr.append(td1,td2,td3); tw.appendChild(tr);
+      if(!row.hit){const note=el("span","hist-miss-note");note.textContent=`${POS_NAMES[selectedPos]}${row.actual}`;td2.appendChild(note)}
+      const td3=el("div");td3.innerHTML=row.hit?`<span class="badge-hit">中✓</span>`:`<span class="badge-miss">錯✗</span>`;
+      tr.append(td1,td2,td3);tw.appendChild(tr);
     });
     const tf=el("div","table-foot");
     tf.innerHTML=`驗證 <b style="color:var(--text)">${history.length}</b> 期 · 命中 <b style="color:var(--green)">${hits}</b> 期 · 準確率 <b style="color:var(--blue)">${acc}%</b>`;
-    tw.appendChild(tf);
-    app.appendChild(tw);
+    tw.appendChild(tf);app.appendChild(tw);
   }
 
   app.appendChild(el("div","spacer"));
-  cdEl=document.getElementById("cd");
-  startCountdown();
+  cdEl=document.getElementById("cd");startCD();
 }
 
 let refreshing=false;
-async function manualRefresh() {
-  if(refreshing) return; refreshing=true;
+async function manualRefresh(){
+  if(refreshing)return;refreshing=true;
   const btn=document.getElementById("refresh-btn");
-  if(btn){btn.disabled=true;btn.textContent="↻ 更新中...";}
-  await loadData(true); refreshing=false;
+  if(btn){btn.disabled=true;btn.textContent="↻ 更新中..."}
+  await loadData(true);refreshing=false;
 }
-
-setInterval(()=>{ if(sessionLevel) loadData(true); }, REFRESH_MS);
+setInterval(()=>{if(sessionLevel)loadData(true)},REFRESH_MS);
 </script>
 
 </body>
